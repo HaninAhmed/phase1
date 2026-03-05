@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Application - MyFinance</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header>
+            <h1>Apply for Account</h1>
+            <p class="desktop-only">Open a new savings or investment account</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav>
+            <div class="logo">MyFinance</div>
+            <ul>
+                <li><a href="../index.html">Dashboard</a></li>
+                <li><a href="budget-tracker.html">Budget</a></li>
+                <li><a href="goal-planner.html">Goals</a></li>
+                <li><a href="account-application.html" class="active">Apply</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <section>
+                <h2>Account Application Form</h2>
+                <p>Complete this form to open a new account with MyFinance.</p>
+
+                <form action="#" method="post">
+                    <!-- Personal Information -->
+                    <h3 class="mt-lg mb-md">Personal Information</h3>
+
+                    <div class="form-group">
+                        <label for="full-name">Full Name (as per QID)</label>
+                        <input type="text" id="full-name" name="full-name" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="qid">Qatar ID Number</label>
+                            <input type="text" id="qid" name="qid" placeholder="11-digit QID" maxlength="11" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" name="dob" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Mobile Phone</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+974 XXXX XXXX" required>
+                        </div>
+                    </div>
+
+                    <!-- Account Preferences -->
+                    <h3 class="mt-lg mb-md">Account Preferences</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="account-type">Account Type</label>
+                            <select id="account-type" name="account-type" required>
+                                <option value="">Select account type</option>
+                                <option value="savings">Savings Account</option>
+                                <option value="checking">Checking Account</option>
+                                <option value="fixed-deposit">Fixed Deposit</option>
+                                <option value="investment">Investment Account</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="currency">Preferred Currency</label>
+                            <select id="currency" name="currency" required>
+                                <option value="QAR" selected>Qatari Riyal (QAR)</option>
+                                <option value="USD">US Dollar (USD)</option>
+                                <option value="EUR">Euro (EUR)</option>
+                                <option value="GBP">British Pound (GBP)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="initial-deposit">Initial Deposit Amount (QAR)</label>
+                        <input type="number" id="initial-deposit" name="initial-deposit" min="500" step="100" placeholder="Minimum: 500 QAR" required>
+                    </div>
+
+                    <!-- Terms -->
+                    <h3 class="mt-lg mb-md">Terms and Conditions</h3>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="terms" required>
+                            I agree to the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="accurate-info" required>
+                            I confirm that all information provided is accurate and complete
+                        </label>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="d-flex gap-md mt-lg">
+                        <button type="submit" class="btn btn-primary btn-block">Submit Application</button>
+                        <button type="reset" class="btn btn-block">Clear Form</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+
+        <!-- Sidebar -->
+        <aside>
+            <h3>Why Choose Us?</h3>
+            <div class="sidebar-card">
+                <ul>
+                    <li>No minimum balance fees</li>
+                    <li>24/7 online banking</li>
+                    <li>Competitive profit rates</li>
+                    <li>Free ATM withdrawals</li>
+                </ul>
+            </div>
+
+            <h3>Required Documents</h3>
+            <div class="sidebar-card">
+                <ul>
+                    <li>Valid Qatar ID (QID)</li>
+                    <li>Proof of address</li>
+                    <li>Employment letter</li>
+                    <li>Passport photo</li>
+                </ul>
+            </div>
+
+            <h3>Need Help?</h3>
+            <div class="sidebar-card">
+                <p><strong>Phone:</strong> <a href="tel:+97444001234">+974 4400 1234</a></p>
+                <p><strong>Email:</strong> <a href="mailto:apply@myfinance.qa">apply@myfinance.qa</a></p>
+            </div>
+        </aside>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 MyFinance</p>
+            <p class="desktop-only">
+                <a href="#">Privacy</a> | <a href="#">Terms</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

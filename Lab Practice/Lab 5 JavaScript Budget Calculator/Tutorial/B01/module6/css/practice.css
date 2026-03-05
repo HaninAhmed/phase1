@@ -1,0 +1,96 @@
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1 { color: #2c3e50; }
+h2 { color: #3498db; border-bottom: 2px solid #3498db; padding-bottom: 8px; }
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin: 16px 0;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-left: 4px solid #3498db;
+    text-align: center;
+}
+
+.card h3 {
+    color: #7f8c8d;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.card .amount {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.text-success { color: #27ae60; }
+.text-danger { color: #e74c3c; }
+.border-success { border-left-color: #27ae60; }
+.border-danger { border-left-color: #e74c3c; }
+.border-warning { border-left-color: #f39c12; }
+
+.btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 4px;
+}
+
+.btn-primary { background: #3498db; color: white; }
+.btn-danger { background: #e74c3c; color: white; }
+
+input, select {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    margin: 4px 0;
+    box-sizing: border-box;
+}
+
+.form-group { margin-bottom: 12px; }
+label { display: block; font-weight: 500; margin-bottom: 4px; }
+.form-row { display: flex; gap: 12px; }
+.form-row > * { flex: 1; }
+
+#transaction-list {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 16px 0;
+}
+
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.transaction-item:last-child { border-bottom: none; }
+
+.empty-message {
+    padding: 16px;
+    color: #7f8c8d;
+    text-align: center;
+}

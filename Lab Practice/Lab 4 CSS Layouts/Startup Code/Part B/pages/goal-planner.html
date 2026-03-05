@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goal Planner - MyFinance</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header>
+            <h1>Goal Planner</h1>
+            <p class="desktop-only">Set and track your financial goals</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav>
+            <div class="logo">MyFinance</div>
+            <ul>
+                <li><a href="../index.html">Dashboard</a></li>
+                <li><a href="budget-tracker.html">Budget</a></li>
+                <li><a href="goal-planner.html" class="active">Goals</a></li>
+                <li><a href="account-application.html">Apply</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Goals Overview Cards -->
+            <section>
+                <h2>Your Goals at a Glance</h2>
+                <div class="dashboard-grid">
+                    <article class="card card--success">
+                        <h3>Active Goals</h3>
+                        <p class="amount">3</p>
+                        <p class="text-muted">Goals in progress</p>
+                    </article>
+
+                    <article class="card">
+                        <h3>Total Target</h3>
+                        <p class="amount">70,000 QAR</p>
+                        <p class="text-muted">Combined goal amount</p>
+                    </article>
+
+                    <article class="card card--success">
+                        <h3>Total Saved</h3>
+                        <p class="amount text-success">25,000 QAR</p>
+                        <p class="text-muted">Across all goals</p>
+                    </article>
+
+                    <article class="card card--warning">
+                        <h3>Overall Progress</h3>
+                        <p class="amount">36%</p>
+                        <p class="text-muted">Average completion</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Create New Goal Form -->
+            <section>
+                <h2>Create New Goal</h2>
+                <form action="#" method="post">
+                    <div class="form-group">
+                        <label for="goal-name">Goal Name</label>
+                        <input type="text" id="goal-name" name="goal-name" placeholder="e.g., Emergency Fund" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="target-amount">Target Amount (QAR)</label>
+                            <input type="number" id="target-amount" name="target-amount" min="100" step="100" placeholder="10000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="current-amount">Current Savings (QAR)</label>
+                            <input type="number" id="current-amount" name="current-amount" min="0" step="0.01" value="0">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="target-date">Target Date</label>
+                            <input type="date" id="target-date" name="target-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="priority">Priority</label>
+                            <select id="priority" name="priority" required>
+                                <option value="">Select priority</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-md">
+                        <button type="submit" class="btn btn-primary">Create Goal</button>
+                        <button type="reset" class="btn">Clear</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Existing Goals Table -->
+            <section>
+                <h2>Your Financial Goals</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Goal</th>
+                                <th>Target</th>
+                                <th>Current</th>
+                                <th>Progress</th>
+                                <th>Target Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Emergency Fund</td>
+                                <td>30,000 QAR</td>
+                                <td>20,000 QAR</td>
+                                <td>67%</td>
+                                <td>Dec 2026</td>
+                                <td class="text-success">On Track</td>
+                            </tr>
+                            <tr>
+                                <td>Maldives Vacation</td>
+                                <td>15,000 QAR</td>
+                                <td>5,000 QAR</td>
+                                <td>33%</td>
+                                <td>Jul 2027</td>
+                                <td class="text-success">On Track</td>
+                            </tr>
+                            <tr>
+                                <td>New Car</td>
+                                <td>25,000 QAR</td>
+                                <td>0 QAR</td>
+                                <td>0%</td>
+                                <td>Jan 2028</td>
+                                <td class="text-warning">Not Started</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <!-- Sidebar -->
+        <aside>
+            <h3>Goal Setting Tips</h3>
+            <div class="sidebar-card">
+                <p><strong>SMART Goals:</strong></p>
+                <p>Specific, Measurable, Achievable, Relevant, Time-bound</p>
+            </div>
+
+            <h3>Top Priorities</h3>
+            <div class="sidebar-card">
+                <p class="text-success"><strong>1. Emergency Fund</strong></p>
+                <p>High Priority - 67% complete</p>
+            </div>
+            <div class="sidebar-card">
+                <p><strong>2. Vacation</strong></p>
+                <p>Medium Priority - 33% complete</p>
+            </div>
+
+            <h3>Calculators</h3>
+            <ul>
+                <li><a href="#">Savings Calculator</a></li>
+                <li><a href="#">Shariah-Compliant Returns</a></li>
+                <li><a href="#">Goal Timeline</a></li>
+            </ul>
+        </aside>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 MyFinance</p>
+            <p class="desktop-only">
+                <a href="#">Privacy</a> | <a href="#">Terms</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

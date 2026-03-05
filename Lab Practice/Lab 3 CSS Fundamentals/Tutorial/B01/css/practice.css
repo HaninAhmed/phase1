@@ -1,0 +1,88 @@
+/* =================================
+   CSS PRACTICE FILE - Lab 3
+   ================================= */
+
+/* Module 1: CSS Syntax and Linking
+   --------------------------------
+   Add your first CSS rules here
+*/
+
+/* Ruleset */
+body {
+   background-color: #f5f5f5;
+}
+
+h1 {
+   color: #333;
+}
+
+p {
+   color: #666;
+}
+
+
+
+
+/* Module 2: CSS Selectors
+   --------------------------------
+   Practice element, class, ID, and descendant selectors
+*/
+
+/* element selector */
+footer {
+   background-color: #333;
+
+}
+
+#main-title {
+   font-style: italic;
+   background-color: antiquewhite;
+   color: gray;
+   text-decoration: underline;
+   border: 1px solid red;
+
+}
+
+/* .highlight {
+   background-color: yellow;
+ 
+} */
+
+h2,
+h1,
+p {
+   background-color: red;
+   font-size: 1rem;
+   border: 1px solid red;
+}
+
+/* body main section p {
+   font-size: large;
+   border: 1px solid red;
+} */
+
+/* Module 3: The Box Model
+   --------------------------------
+   Practice padding, margin, border, and box-sizing
+*/
+
+
+
+/* Module 4: Colors and Typography
+   --------------------------------
+   Practice color formats and font properties
+*/
+
+
+
+/* Module 5: Backgrounds and Borders
+   --------------------------------
+   Practice gradients, backgrounds, and border styles
+*/
+
+
+
+/* Module 6: Pseudo-classes and Shadows
+   --------------------------------
+   Practice :hover, :focus, :active, transitions, and shadows
+*/

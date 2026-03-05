@@ -1,0 +1,403 @@
+/* ========================================
+   RecipeVault - Stylesheet
+   Mobile-First Responsive Design
+   ======================================== */
+
+/* ===== CSS Variables (provided) ===== */
+:root {
+   --color-primary: #e65100;
+   --color-primary-dark: #bf360c;
+   --color-secondary: #ff8f00;
+   --color-accent: #2e7d32;
+   --color-text: #333333;
+   --color-text-light: #666666;
+   --color-bg: #fff8f0;
+   --color-white: #ffffff;
+   --color-border: #eed9c4;
+
+   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+   --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
+
+   --radius-sm: 4px;
+   --radius-md: 8px;
+
+   --spacing-xs: 4px;
+   --spacing-sm: 8px;
+   --spacing-md: 16px;
+   --spacing-lg: 24px;
+   --spacing-xl: 32px;
+}
+
+/* ===== Reset & Base Styles ===== */
+/* TODO: Add box-sizing reset, body font, base img and link styles */
+
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+
+body {
+   font-family: Arial, Helvetica, sans-serif;
+   line-height: 1.6;
+   background-color: var(--color-bg);
+   color: var(--color-text);
+}
+
+img {
+   max-width: 100%;
+   display: block;
+}
+
+a {
+   text-decoration: none;
+   color: var(--color-primary);
+   transition: 0.3s ease;
+}
+
+a:hover {
+   color: var(--color-primary-dark);
+}
+
+/* ===== Typography ===== */
+/* TODO: Style h1, h2, h3 headings */
+
+h1 {
+   font-size: 2rem;
+   margin-bottom: var(--spacing-md);
+}
+
+h2 {
+   font-size: 1.5rem;
+   margin-bottom: var(--spacing-sm);
+}
+
+h3 {
+   font-size: 1.2rem;
+   margin-bottom: var(--spacing-xs);
+}
+
+form h1{
+   text-align: center;
+}
+/* ===== Header ===== */
+/* TODO: Style the site header with a gradient background */
+
+header {
+   background: linear-gradient(
+      to right,
+      var(--color-primary),
+      var(--color-primary-dark)
+   );
+   color: var(--color-white);
+   padding: var(--spacing-lg);
+   text-align: center;
+}
+
+/* ===== Navigation (Flexbox) ===== */
+/* TODO: Style the nav links using Flexbox - stacked on mobile, row on larger screens */
+
+nav {
+   display: flex;
+   flex-direction: column;
+   background-color: var(--color-white);
+   padding: var(--spacing-md);
+   gap: var(--spacing-sm);
+   box-shadow: var(--shadow-sm);
+}
+
+nav a {
+   padding: var(--spacing-sm);
+   border-radius: var(--radius-sm);
+}
+
+nav a:hover {
+   background-color: var(--color-border);
+}
+
+/* ===== Page Layout ===== */
+/* TODO: Set max-width and center the page content */
+
+main {
+   max-width: 1200px;
+   margin: var(--spacing-xl) auto;
+   padding: 0 var(--spacing-md);
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+main section{
+   margin-bottom: var(--spacing-xl);
+}
+/* ===== Recipe Cards (CSS Grid) ===== */
+/* TODO: Create a responsive grid for recipe cards (1 col -> 2 col -> 3 col) */
+/* TODO: Style each card with background, shadow, border-radius, hover effect */
+/* TODO: Make card images fill the width with a fixed height using object-fit */
+
+.recipes-grid {
+   display: grid;
+   grid-template-columns: 1fr;
+   gap: var(--spacing-lg);
+}
+
+.recipes-grid article {
+   background-color: var(--color-white);
+   padding: var(--spacing-md);
+   border-radius: var(--radius-md);
+   box-shadow: var(--shadow-sm);
+   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recipes-grid article:hover {
+   transform: translateY(-6px);
+   box-shadow: var(--shadow-md);
+}
+
+.recipes-grid img {
+   width: 100%;
+   height: 200px;
+   object-fit: cover;
+   border-radius: var(--radius-sm);
+}
+
+/* ===== Table ===== */
+/* TODO: Style the meal plan table - borders, header colors, zebra striping, hover */
+/* TODO: Make the table horizontally scrollable on small screens */
+
+table {
+   width: 100%;
+   border-collapse: collapse;
+   overflow-x: auto;
+   display: block;
+}
+
+th, td {
+   border: 1px solid var(--color-border);
+   padding: var(--spacing-sm);
+   text-align: left;
+}
+
+thead {
+   background-color: var(--color-secondary);
+   color: var(--color-white);
+}
+
+tbody tr:nth-child(even) {
+   background-color: #fff3e0;
+}
+
+tbody tr:hover {
+   background-color: var(--color-border);
+}
+
+/* ===== Video ===== */
+/* TODO: Style the video container and make the iframe responsive */
+
+figure iframe {
+   width: 100%;
+   height: 315px;
+   border-radius: var(--radius-md);
+   box-shadow: var(--shadow-sm);
+}
+
+/* ===== Form ===== */
+/* TODO: Style the form, fieldsets, labels, inputs, select, textarea */
+/* TODO: Add focus states with border color change and box-shadow */
+/* TODO: Style radio and checkbox groups using Flexbox */
+
+form {
+   max-width: 600px;
+   margin: 40px auto;
+}
+
+fieldset {
+   border: 1px solid var(--color-border);
+   padding: var(--spacing-md);
+   border-radius: var(--radius-md);
+   background: var(--color-white);
+   box-shadow: var(--shadow-sm);
+}
+
+legend{
+   font-weight: bold;
+   padding: 0 var(--spacing-xs);
+}
+
+label {
+   display: block;
+   margin-bottom: var(--spacing-xs);
+   font-weight: bold;
+}
+
+input,
+select,
+textarea {
+   width: 100;
+   padding: var(--spacing-sm);
+   border: 1px solid var(--color-border);
+   border-radius: var(--radius-sm);
+   margin-bottom: var(--spacing-sm);
+}
+
+textarea{
+   resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+   border-color: var(--color-primary);
+   box-shadow: 0 0 5px rgba(230, 81, 0, 0.3);
+   outline: none;
+}
+
+input[type="radio"],
+input[type="checkbox"]{
+width:auto;
+margin-right:6px;
+}
+
+/* ===== Buttons ===== */
+/* TODO: Style submit (primary) and reset (secondary) buttons with hover/active states */
+
+button {
+   padding: var(--spacing-sm) var(--spacing-md);
+   border: none;
+   border-radius: var(--radius-sm);
+   cursor: pointer;
+   font-weight: bold;
+   transition: 0.3s ease;
+}
+
+button[type="submit"] {
+   background-color: var(--color-primary);
+   color: var(--color-white);
+}
+
+button[type="submit"]:hover {
+   background-color: var(--color-primary-dark);
+}
+
+button[type="reset"] {
+   background-color: var(--color-secondary);
+   color: var(--color-white);
+}
+
+button[type="reset"]:hover {
+   opacity: 0.8;
+}
+
+/* ===== Sidebar ===== */
+/* TODO: Style the aside with background, shadow, and list spacing */
+
+aside {
+   background-color: var(--color-white);
+   padding: var(--spacing-md);
+   border-radius: var(--radius-md);
+   box-shadow: var(--shadow-sm);
+}
+
+aside ol,
+aside ul {
+   margin-left: var(--spacing-md);
+}
+
+/* ===== Footer ===== */
+/* TODO: Style the footer with dark background, light text, and nav links */
+
+footer {
+   background-color: var(--color-text);
+   color: var(--color-white);
+   padding: var(--spacing-lg);
+   text-align: center;
+}
+
+footer nav {
+   margin-top: var(--spacing-sm);
+}
+
+footer a {
+   color: var(--color-white);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN (Mobile-First)
+   ======================================== */
+
+/* ===== Tablet: 768px+ ===== */
+/* TODO: Add @media (min-width: 768px) */
+/* - Nav links in a row */
+/* - Recipe cards in 2 columns */
+/* - Form number fields side by side */
+
+@media (min-width: 768px) {
+
+   main{
+      display: block;
+   }
+
+   nav {
+      flex-direction: row;
+      justify-content: center;
+   }
+
+   .recipes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+   }
+
+}
+
+/* ===== Desktop: 1024px+ ===== */
+/* TODO: Add @media (min-width: 1024px) */
+/* - Header: logo left, nav right */
+/* - Page layout: main + sidebar using CSS Grid with grid-template-areas */
+/* - Recipe cards in 3 columns */
+
+@media (min-width: 1024px) {
+
+   header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+   }
+
+   main {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      grid-template-areas: 
+      "recipes sidebar"
+      "meal sidebar"
+      "video sidebar";
+      gap: var(--spacing-lg);
+   }
+
+   .featured-recipes{
+   grid-area:recipes;
+}
+
+
+main section:nth-of-type(2){
+grid-area:meal;
+}
+
+main section:nth-of-type(3){
+grid-area:video;
+}
+
+aside{
+grid-area:sidebar;
+}
+
+   .recipes-grid {
+      grid-template-columns:repeat(3,1fr);
+   }
+   form{
+      max-width: 600px;
+      margin: auto;
+   }
+   main:has(form){
+      display: block;
+   }
+}
