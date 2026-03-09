@@ -1,0 +1,132 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: #faf7fb;
+    color: #2b2b2b;
+}
+
+/* Header */
+header{
+    background: white;
+    border-bottom: 1px solid #eee;
+}
+.logo {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+}
+
+.logowithtext {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+h1 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #f07bb8;
+    line-height: 1;
+}
+
+a {
+    text-decoration: none;
+    color: #6a5acd;
+    font-weight: 600;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.topBar {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 18px;
+}
+
+/* Main */
+main {
+    max-width: 1100px;
+    margin: 24px auto;
+    display: grid;
+    padding: 0 20px;
+    grid-template-columns: 220px 1fr 300px;
+    gap: 24px;
+}
+
+/* SideBar */
+.sideBar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.userSideInfo{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.userPhoto{
+    border-radius: 50%;
+    background: #ddd;
+}
+
+.userName{
+    font-weight: 700;
+}
+
+/* Nav */
+.navBar{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pageLink {
+    padding: 10px 16px;
+    border-radius: 999px;
+    transition: background-color 0.3s ease;
+    color: #555;
+}
+
+.pageLink:hover {
+    background-color: #f3e9fb;
+    color: #7b3fe4;
+    text-decoration: none;
+}
+/* Footer */
+footer {
+    text-align: center;
+    color: #aaa;
+    font-size: 13px;
+    margin: 40px 0;
+}
+
+/* Buttons */
+button {
+    border: none;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    background: none;
+    transition: background-color 0.3s ease;
+}
+
+.mainBtn {
+    padding: 8px 18px;
+    background: linear-gradient(135deg,#f7a8d6,#b9a7ff);
+    color: white;
+}
+
+.mainBtn:hover {
+    opacity: 0.9;
+}
