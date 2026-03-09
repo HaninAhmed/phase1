@@ -26,6 +26,7 @@
     </header>
 
     <main>
+        <!-- Left -->
         <aside class="leftSideBar">
             <section class="userSideInfo">
                 <img src=""
@@ -47,6 +48,36 @@
 
             <button type="button" class="mainBtn">+ New Post</button>
         </aside>
+
+        <!-- Center -->
+        <section class="centerSide" aria-label="Profile content">
+            <div class="profileDiv">
+                <div class="userInfo">
+                    <h2>@username</h2>
+                    <p id="userBio" class="userBio">Edit your bio (optional)</p>
+                </div>
+                <div class="userStats">
+                    <div class="counterBox">
+                        <span class="countNumber" id="postCount">0</span>
+                        <span class="countLabel">Posts</span>
+                    </div>
+                    <div class="counterBox">
+                        <span class="countNumber" id="followerCount">0</span>
+                        <span class="countLabel">Followers</span>
+                    </div>
+                    <div class="counterBox">
+                        <span class="countNumber" id="followingCount">0</span>
+                        <span class="countLabel">Following</span>
+                    </div>
+
+                    <div class="actions">
+                        <button type="button" id="followBtn" class="mainBtn">Follow</button>
+                        <button type="button" id="unfollowBtn" class="secBtn">Unfollow</button>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
     </main>
 
     <footer>
