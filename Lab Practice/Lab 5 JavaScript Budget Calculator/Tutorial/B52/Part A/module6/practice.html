@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Practice - Module 6: Mini Budget Calculator</title>
+    <link rel="stylesheet" href="css/practice.css">
+</head>
+<body>
+    <h1>Module 6: Mini Budget Calculator</h1>
+    <p>Combine everything from Modules 1-5 to build a working calculator!</p>
+
+    <!-- Dashboard Cards -->
+    <div class="dashboard">
+        <div class="card border-success">
+            <h3>Total Income</h3>
+            <p class="amount text-success" id="total-income">0 QAR</p>
+        </div>
+        <div class="card border-danger">
+            <h3>Total Expenses</h3>
+            <p class="amount text-danger" id="total-expenses">0 QAR</p>
+        </div>
+        <div class="card">
+            <h3>Balance</h3>
+            <p class="amount" id="total-balance">0 QAR</p>
+        </div>
+        <div class="card border-warning">
+            <h3>Transactions</h3>
+            <p class="amount" id="transaction-count">0</p>
+        </div>
+    </div>
+
+    <!-- Add Transaction Form -->
+    <h2>Add Transaction</h2>
+    <form id="calc-form">
+        <div class="form-group">
+            <label for="calc-desc">Description</label>
+            <input type="text" id="calc-desc" placeholder="e.g., Salary, Rent, Groceries" required>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="calc-amount">Amount (QAR)</label>
+                <input type="number" id="calc-amount" placeholder="0.00" min="0" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="calc-type">Type</label>
+                <select id="calc-type" required>
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="calc-category">Category</label>
+                <select id="calc-category" required>
+                    <option value="Income">Income</option>
+                    <option value="Housing">Housing</option>
+                    <option value="Food">Food</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Shopping">Shopping</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Transaction</button>
+        <button type="button" id="clear-all-btn" class="btn btn-danger">Clear All</button>
+    </form>
+
+    <!-- Transaction List -->
+    <h2>Transactions</h2>
+    <div id="transaction-list">
+        <p class="empty-message">No transactions yet. Add one above!</p>
+    </div>
+
+    <script src="js/practice.js"></script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyFinance Dashboard - Responsive Layout</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- ============================================
+             HEADER
+             ============================================ -->
+        <header>
+            <h1>MyFinance Dashboard</h1>
+            <p class="desktop-only">Your Personal Finance Management Platform</p>
+        </header>
+
+        <!-- ============================================
+             NAVIGATION (Responsive: vertical on mobile, horizontal on tablet+)
+             ============================================ -->
+        <nav>
+            <div class="logo">MyFinance</div>
+            <ul>
+                <li><a href="index.html" class="active">Dashboard</a></li>
+                <li><a href="pages/budget-tracker.html">Budget</a></li>
+                <li><a href="pages/goal-planner.html">Goals</a></li>
+                <li><a href="pages/account-application.html">Apply</a></li>
+            </ul>
+        </nav>
+
+        <!-- ============================================
+             MAIN CONTENT
+             ============================================ -->
+        <main>
+            <!-- Financial Overview Cards (Responsive Grid: 1 → 2 → 4 columns) -->
+            <section id="overview">
+                <h2>Financial Overview</h2>
+                <div class="dashboard-grid">
+                    <article class="card">
+                        <h3>Total Balance</h3>
+                        <p class="amount">45,250 QAR</p>
+                        <p class="text-muted">Across all accounts</p>
+                    </article>
+
+                    <article class="card card--success">
+                        <h3>Monthly Income</h3>
+                        <p class="amount text-success">+12,000 QAR</p>
+                        <p class="text-muted">This month</p>
+                    </article>
+
+                    <article class="card card--danger">
+                        <h3>Monthly Expenses</h3>
+                        <p class="amount text-danger">-8,500 QAR</p>
+                        <p class="text-muted">This month</p>
+                    </article>
+
+                    <article class="card card--success">
+                        <h3>Savings Rate</h3>
+                        <p class="amount text-success">29%</p>
+                        <p class="text-muted">Of income saved</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Accounts Table (Responsive: horizontal scroll on mobile) -->
+            <section id="accounts">
+                <h2>My Accounts</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Account Name</th>
+                                <th>Type</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Main Checking</td>
+                                <td>Checking</td>
+                                <td>15,250 QAR</td>
+                                <td class="text-success">Active</td>
+                            </tr>
+                            <tr>
+                                <td>Emergency Fund</td>
+                                <td>Savings</td>
+                                <td>20,000 QAR</td>
+                                <td class="text-success">Active</td>
+                            </tr>
+                            <tr>
+                                <td>Vacation Savings</td>
+                                <td>Savings</td>
+                                <td>5,000 QAR</td>
+                                <td class="text-success">Active</td>
+                            </tr>
+                            <tr>
+                                <td>Investment Portfolio</td>
+                                <td>Investment</td>
+                                <td>5,000 QAR</td>
+                                <td class="text-warning">Pending</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Recent Transactions -->
+            <section id="transactions">
+                <h2>Recent Transactions</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2026-01-30</td>
+                                <td>Salary Deposit</td>
+                                <td>Income</td>
+                                <td class="text-success">+12,000 QAR</td>
+                            </tr>
+                            <tr>
+                                <td>2026-01-28</td>
+                                <td>Rent Payment</td>
+                                <td>Housing</td>
+                                <td class="text-danger">-4,500 QAR</td>
+                            </tr>
+                            <tr>
+                                <td>2026-01-25</td>
+                                <td>Grocery Shopping</td>
+                                <td>Food</td>
+                                <td class="text-danger">-850 QAR</td>
+                            </tr>
+                            <tr>
+                                <td>2026-01-22</td>
+                                <td>Electric Bill</td>
+                                <td>Utilities</td>
+                                <td class="text-danger">-320 QAR</td>
+                            </tr>
+                            <tr>
+                                <td>2026-01-20</td>
+                                <td>Coffee Shop</td>
+                                <td>Dining</td>
+                                <td class="text-danger">-45 QAR</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section>
+                <h2>Quick Actions</h2>
+                <div class="d-flex gap-md flex-column">
+                    <button class="btn btn-primary btn-block">Add Transaction</button>
+                    <button class="btn btn-success btn-block">Transfer Money</button>
+                    <button class="btn btn-danger btn-block">Pay Bills</button>
+                </div>
+            </section>
+        </main>
+
+        <!-- ============================================
+             SIDEBAR (Below main on mobile, beside main on desktop)
+             ============================================ -->
+        <aside>
+            <h3>Quick Tips</h3>
+            <div class="sidebar-card">
+                <p><strong>Tip of the Day:</strong></p>
+                <p>Set up automatic transfers to your savings account on payday to ensure consistent savings.</p>
+            </div>
+
+            <h3>Savings Goals</h3>
+            <div class="sidebar-card">
+                <p><strong>Emergency Fund</strong></p>
+                <p>20,000 / 30,000 QAR (67%)</p>
+                <p class="text-success">On track!</p>
+            </div>
+            <div class="sidebar-card">
+                <p><strong>Vacation</strong></p>
+                <p>5,000 / 15,000 QAR (33%)</p>
+                <p class="text-warning">Needs attention</p>
+            </div>
+
+            <h3>Useful Links</h3>
+            <ul>
+                <li><a href="#">Budgeting Calculator</a></li>
+                <li><a href="#">Investment Guide</a></li>
+                <li><a href="#">Contact Support</a></li>
+            </ul>
+        </aside>
+
+        <!-- ============================================
+             FOOTER
+             ============================================ -->
+        <footer>
+            <p>&copy; 2026 MyFinance. All rights reserved.</p>
+            <p class="desktop-only">
+                <a href="#">Privacy</a> |
+                <a href="#">Terms</a> |
+                <a href="#">Contact</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

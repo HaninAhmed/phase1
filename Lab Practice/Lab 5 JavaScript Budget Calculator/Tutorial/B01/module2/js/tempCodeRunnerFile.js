@@ -1,0 +1,1 @@
+(content) => console.log(`result can be ${content}`))

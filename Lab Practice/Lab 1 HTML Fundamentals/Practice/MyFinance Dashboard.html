@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MyFinance Dashboard </title>
+    </head>
+    <body>
+        <header>
+            <h1>MyFinance Dashboard  </h1>
+        </header>
+        <p>Your Personal Money Management Hub</p>
+
+        <!--Navigation Menu-->
+        <nav>
+            <ul>
+                <li><a href=''>Overview</a>|</li>
+                <li><a href=''>My Accounts</a>|</li>
+                <li><a href=''>Financial Goals</a>|</li>
+                <li><a href=''>Budget</a>|</li>
+                <li><a href=''>Resources</a></li>
+            </ul>
+            <style>
+                nav ul{
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                }
+                nav ul li{
+                    display: inline;
+                    margin-right: 20;
+                    position: relative;
+                }
+    
+                nav ul li a{
+                    text-decoration: underline;
+                    color: blue;
+                    font-weight: bold;
+                }
+            </style>
+        </nav>
+        <!--Main content-->
+        <main>
+            <!--First Section-->
+            <section id="Overview">
+                <h2>Dashboard Overview</h2>
+                <ul>
+                    <li>Total Balance: 45,250 QAR (Across all accounts)</li>
+                    <li>Monthly Income: 12,000 QAR (this month)</li>
+                    <li>Monthly Expenses: 8,500 QAR (this month)</li>
+                    <li>Savings Rate: 29% (of monthly income)</li>
+                </ul>
+
+                <!--Second Section-->
+                <section id="accounts"></section>
+                <h2>My Accounts</h2>
+                <table>
+                    <table border="1">
+                    <caption>Summary of all financial accounts as of January 2026</caption>
+                    <thead>
+                    <tr>
+                        <th>Account Type</th>
+                        <th>Account Name</th>
+                        <th>Balance (QAR)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Checking</td>
+                        <td>15250</td>
+                        <td>Active</td>
+                    </tr>
+                    <tr>
+                        <td>Emergency Fund</td>
+                        <td>1334 5678</td>
+                        <td>Building B</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="3">Last updated 2024-06-15</th>
+                    </tr>
+                </tfoot>
+                </table>
+
+        </main>
+
+    </body>
+</html>

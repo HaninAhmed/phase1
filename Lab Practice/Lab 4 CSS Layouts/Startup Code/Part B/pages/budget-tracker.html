@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Tracker - MyFinance</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header>
+            <h1>Budget Tracker</h1>
+            <p class="desktop-only">Track your income and expenses</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav>
+            <div class="logo">MyFinance</div>
+            <ul>
+                <li><a href="../index.html">Dashboard</a></li>
+                <li><a href="budget-tracker.html" class="active">Budget</a></li>
+                <li><a href="goal-planner.html">Goals</a></li>
+                <li><a href="account-application.html">Apply</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Budget Summary Cards -->
+            <section>
+                <h2>January 2026 Budget</h2>
+                <div class="dashboard-grid">
+                    <article class="card card--success">
+                        <h3>Total Income</h3>
+                        <p class="amount text-success">12,000 QAR</p>
+                        <p class="text-muted">Monthly income</p>
+                    </article>
+
+                    <article class="card card--danger">
+                        <h3>Total Expenses</h3>
+                        <p class="amount text-danger">7,800 QAR</p>
+                        <p class="text-muted">Spent this month</p>
+                    </article>
+
+                    <article class="card card--success">
+                        <h3>Remaining</h3>
+                        <p class="amount text-success">4,200 QAR</p>
+                        <p class="text-muted">Left to spend</p>
+                    </article>
+
+                    <article class="card card--warning">
+                        <h3>Budget Status</h3>
+                        <p class="amount">65%</p>
+                        <p class="text-muted">Of budget used</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Add Transaction Form -->
+            <section>
+                <h2>Add New Transaction</h2>
+                <form action="#" method="post">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Amount (QAR)</label>
+                            <input type="number" id="amount" name="amount" min="0" step="0.01" placeholder="0.00" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" id="description" name="description" placeholder="e.g., Grocery shopping" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <select id="category" name="category" required>
+                                <option value="">Select category</option>
+                                <option value="housing">Housing</option>
+                                <option value="food">Food & Groceries</option>
+                                <option value="transportation">Transportation</option>
+                                <option value="utilities">Utilities</option>
+                                <option value="entertainment">Entertainment</option>
+                                <option value="shopping">Shopping</option>
+                                <option value="income">Income</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="type">Type</label>
+                            <select id="type" name="type" required>
+                                <option value="expense">Expense</option>
+                                <option value="income">Income</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-md">
+                        <button type="submit" class="btn btn-primary">Add Transaction</button>
+                        <button type="reset" class="btn">Clear</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Budget vs Actual Table -->
+            <section>
+                <h2>Budget vs Actual</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Budget</th>
+                                <th>Actual</th>
+                                <th>Remaining</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Housing</td>
+                                <td>4,500 QAR</td>
+                                <td>4,500 QAR</td>
+                                <td>0 QAR</td>
+                                <td class="text-success">On Budget</td>
+                            </tr>
+                            <tr>
+                                <td>Food & Groceries</td>
+                                <td>1,500 QAR</td>
+                                <td>1,200 QAR</td>
+                                <td>300 QAR</td>
+                                <td class="text-success">Under Budget</td>
+                            </tr>
+                            <tr>
+                                <td>Transportation</td>
+                                <td>800 QAR</td>
+                                <td>650 QAR</td>
+                                <td>150 QAR</td>
+                                <td class="text-success">Under Budget</td>
+                            </tr>
+                            <tr>
+                                <td>Utilities</td>
+                                <td>500 QAR</td>
+                                <td>320 QAR</td>
+                                <td>180 QAR</td>
+                                <td class="text-success">Under Budget</td>
+                            </tr>
+                            <tr>
+                                <td>Entertainment</td>
+                                <td>600 QAR</td>
+                                <td>750 QAR</td>
+                                <td>-150 QAR</td>
+                                <td class="text-danger">Over Budget</td>
+                            </tr>
+                            <tr>
+                                <td>Shopping</td>
+                                <td>400 QAR</td>
+                                <td>380 QAR</td>
+                                <td>20 QAR</td>
+                                <td class="text-success">Under Budget</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <!-- Sidebar -->
+        <aside>
+            <h3>Budget Tips</h3>
+            <div class="sidebar-card">
+                <p>Track every purchase, no matter how small!</p>
+            </div>
+            <div class="sidebar-card">
+                <p>Review your budget weekly to stay on track.</p>
+            </div>
+
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="#">Export to CSV</a></li>
+                <li><a href="#">Print Report</a></li>
+                <li><a href="#">Set Alerts</a></li>
+            </ul>
+        </aside>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 MyFinance</p>
+            <p class="desktop-only">
+                <a href="#">Privacy</a> | <a href="#">Terms</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

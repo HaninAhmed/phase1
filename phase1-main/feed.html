@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>News Feed</title>
+
+<link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<h2>SocialApp</h2>
+
+<button onclick="logout()">Logout</button>
+
+</nav>
+
+
+<div class="container">
+
+
+<div class="create-post">
+
+<h3>Create Post</h3>
+
+<textarea id="postContent" placeholder="What do you want to post?"></textarea>
+
+<br><br>
+
+<button onclick="createPost()">Post</button>
+
+</div>
+
+
+<h3>News Feed</h3>
+
+
+<div id="feed">
+
+<!-- Posts will appear here using JavaScript -->
+
+</div>
+
+
+</div>
+
+
+<script src="feed.js"></script>
+
+</body>
+
+</html>
