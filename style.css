@@ -114,6 +114,7 @@ main {
 .userPhoto{
     border-radius: 50%;
     background: #ddd;
+    width: 40px;
 }
 
 .userName{
