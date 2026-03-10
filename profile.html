@@ -19,8 +19,12 @@
                 <h1>Postify</h1>
             </div>
 
-            <form id="searchBar" role="search" aria-label="Search on Postify" class="searchBar">
-                <input id="searchBar" name="search" type="search" placeholder="Search Postify..." class="searchBar">
+            <form id="searchForm" role="search" aria-label="Search on Postify" class="searchBar">
+                <input id="searchBar" 
+                name="search" 
+                type="search" 
+                placeholder="Search Postify..." 
+                class="searchBar">
             </form>
         </section>
     </header>
@@ -65,9 +69,26 @@
                     </div>
                 </div>
             </div>
+            <p id="editProfileMessage" class="msg">No post yet.</p>
         </section>
 
-        <section class="postFeed"></section>
+        <aside class="rightSideBar">
+            <section class="postCards">
+                <h3>Edit Profile</h3>
+                <form id="editProfile" class="editProfile">
+                    <label for="editUsername">Username:</label>
+                    <input type="text" id="editUsername" name="username" placeholder="@username">
+
+                    <label for="editBio">Bio:</label>
+                    <textarea id="editBio" name="bio" placeholder="edit your bio here..."></textarea>
+
+                    <label for="editPhoto">Change Photo:</label>
+                    <input type="file" id="editPhoto" name="photo">
+
+                    <button type="submit" class="mainBtn">Save Changes</button>
+                </form>
+            </section>
+        </aside>
     </main>
 
     <footer>
