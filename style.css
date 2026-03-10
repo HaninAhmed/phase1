@@ -227,10 +227,29 @@ button {
 .userStats {
     display: flex;
     gap: var(--spacing-lg);
+    flex-wrap: wrap;
+    align-items: center;
 }
 
-.actions{
+/* right Side */
+.rightSideBar {
     display: flex;
+    flex-direction: column;
     gap: var(--spacing-md);
-    margin-top: var(--spacing-lg);
+}
+
+.postCards {
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.editProfile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
 }
