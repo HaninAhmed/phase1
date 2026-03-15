@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page </title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <header>
+        <section class="topBar">
+            <div class="logowithtext">
+                <a href="index.html">
+                    <img src="/images/postify logo.png" 
+                    alt="Postify Logo" 
+                    class="logo">
+                </a>
+                <h1>Postify</h1>
+            </div>
+
+            <form id="searchForm" role="search" aria-label="Search on Postify" class="searchBar">
+                <input id="searchBar" 
+                name="search" 
+                type="search" 
+                placeholder="Search Postify..." 
+                class="searchBar">
+            </form>
+        </section>
+    </header>
+
+    <main>
+        <!-- Left -->
+        <aside class="leftSideBar">
+            <nav class="navBar">
+                <a href="index.html" class="pageLink">Home</a>
+                <a href="loginpage.html" class="pageLink">Log out</a>
+                
+            </nav>
+
+            <button type="button" class="mainBtn">+ New Post</button>
+        </aside>
+
+        <!-- Center -->
+        <section class="centerSide" aria-label="Profile content">
+            <div class="profileDiv">
+                <div class="userInfo">
+                    <img src="/images/profilePhoto.png" alt="profilePhoto" class="profilePhoto" id="profilePhoto">
+                    <h2>@username</h2>
+                    <p id="userBio" class="userBio">....</p>
+                </div>
+                <div class="userStats">
+                    <div class="counterBox">
+                        <span class="countNumber" id="postCount">0</span>
+                        <span class="countLabel">Posts</span>
+                    </div>
+                    <div class="counterBox">
+                        <span class="countNumber" id="followerCount">0</span>
+                        <span class="countLabel">Followers</span>
+                    </div>
+                    <div class="counterBox">
+                        <span class="countNumber" id="followingCount">0</span>
+                        <span class="countLabel">Following</span>
+                    </div>
+                </div>
+            </div>
+            <p id="editProfileMessage" class="msg"><small>No post yet.</small></p>
+        </section>
+
+        <aside class="rightSideBar">
+            <section class="postCards">
+                <h3>Edit Profile</h3>
+                <form id="editProfile" class="editProfile">
+                    <label for="editUsername">Username:</label>
+                    <input type="text" id="editUsername" name="username" placeholder="@username">
+
+                    <label for="editBio">Bio:</label>
+                    <textarea id="editBio" name="bio" placeholder="edit your bio here..."></textarea>
+
+                    <label for="editPhoto">Change Photo:</label>
+                    <input type="file" id="editPhoto" name="photo">
+
+                    <button type="submit" class="mainBtn">Save Changes</button>
+                </form>
+            </section>
+        </aside>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Postify</p>
+    </footer>
+</body>
+</html>
