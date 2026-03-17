@@ -13,10 +13,25 @@
 </head>
 
 <body>
+    <header>
+        <section class="topBar">
+            <div class="logowithtext">
+                <a href="index.html">
+                    <img src="/images/postify logo.png" 
+                    alt="Postify Logo" 
+                    class="logo">
+                </a>
+                <h1>Postify</h1>
+            </div>
+
+            <form id="searchBar" role="search" aria-label="Search on Postify" class="searchBar">
+                <input id="searchBar" name="search" type="search" placeholder="Search Postify..." class="searchBar">
+            </form>
+        </section>
+    </header>
 
 <nav class="navbar">
 
-<h2>Postify</h2>
 
 <button onclick="logout()">Logout</button>
 
@@ -52,6 +67,10 @@
 
 
 <script src="feed.js"></script>
+
+    <footer>
+        <p>&copy; 2026 Postify</p>
+    </footer>
 
 </body>
 
