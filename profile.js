@@ -33,24 +33,19 @@ function loadProfile() {
     });
 
     if (!user) {
-        document.getElementById("userName").textContent = "user not found";
+        alert("User not found");
         return;
     }
 
-    let userNameEle = document.getElementById("userName");
     let profileNameEle = document.querySelector(".userInfo h2");
     let bioEle = document.getElementById("userBio");
     let followersEle = document.getElementById("followerCount");
     let followingEle = document.getElementById("followingCount");
     let profilePicELe = document.getElementById("profilePhoto");
-    let sidePicEle = document.getElementById("userPhoto");
 
-    if (userNameEle) {
-        userNameEle.textContent = user.username;
-    }
 
     if (profileNameEle) {
-        profileNameEle.textContent = "@" + user.name;
+        profileNameEle.textContent = "@" + user.username;
     }
 
     if (bioEle) {
@@ -69,12 +64,9 @@ function loadProfile() {
         if (profilePicELe) {
             profilePicELe.src = user.photo;
         }
-        if (sidePicEle) {
-            sidePicEle.src = user.photo;
-        }
     }
 
-    document.getElementById("editUsername").value = user.name || "";
+    document.getElementById("editUsername").value = user.username || "";
     document.getElementById("editBio").value = user.bio || "";
 }
 
@@ -88,7 +80,6 @@ function loadUserPosts() {
 
     let postsContainer = document.getElementById("userPosts");
     let postCountEle = document.getElementById("postCount");
-    let messgEle = document.getElementById("editProfileMessage");
 
     postsContainer.innerHTML = "";
 
@@ -97,22 +88,16 @@ function loadUserPosts() {
     }
 
     if (userPosts.length === 0) {
-        if (messgEle) {
-            messgEle.innerHTML = "<small>no posts</small>";
-        }
+        postsContainer.innerHTML = "<p>No posts yet.</p>";
         return;
-    }
-    
-    if (messgEle) {
-        messgEle.innerHTML = "";
-    }
+}
 
     userPosts.forEach(function(post) {
         let postCard = document.createElement("div");
         postCard.classList.add("post");
 
         postCard.innerHTML = `
-            h4>${post.user}</h4>
+            <h4>${post.user}</h4>
             <p>${post.content}</p>
             <small>${post.time}</small>
             <p><strong>Likes:</strong> ${post.likes ? post.likes.length : 0}</p>
@@ -122,4 +107,86 @@ function loadUserPosts() {
     });
 }
 
+function saveProfileChanges(event) {
+    event.preventDefault();
 
+    let currentUser = getCurrentUser();
+    let users = getUsers();
+
+    let newUserName = document.getElementById("editUsername").value.trim();
+    let newBio = document.getElementById("editBio").value.trim();
+    let newPhoto = document.getElementById("editPhoto");
+
+    let userIndex = users.findIndex(function(u) {
+        return u.username === currentUser;
+    });
+
+    if (userIndex === -1) {
+        alert("User not found");
+        return;
+    }
+
+    if (newUserName === "") {
+        alert("Username cannot be empty");
+        return;
+    }
+
+    let takenName = users.some(function(u, index) {
+        return u.username === newUserName && index !== userIndex;
+    });
+
+    if (takenName) {
+        alert("Username already taken");
+        return;
+    }
+
+    let oldName = users[userIndex].username;
+    users[userIndex].username = newUserName;
+    users[userIndex].bio = newBio;
+
+    let posts = getPosts();
+    posts = posts.map(function(post) {
+        if (post.user === oldName) {
+            post.user = newUserName;
+        }
+
+        if (post.likes) {
+            post.likes = post.likes.map(function(likeUser) {
+                return likeUser === oldName ? newUserName : likeUser;
+            });
+        }
+
+        if (post.comments) {
+            post.comments = post.comments.map(function(comment) {
+                if (comment.user === oldName) {
+                    comment.user = newUserName;
+                }
+                return comment;
+            });
+        }
+
+        return post;
+    });
+
+    localStorage.setItem("posts", JSON.stringify(posts));
+    localStorage.setItem("currentUser", newUserName);
+
+    if (newPhoto.files && newPhoto.files[0]) {
+        let reader = new FileReader();
+
+        reader.onload = function(e) {
+            users[userIndex].photo = e.target.result;
+            saveUsers(users);
+            loadProfile();
+            loadUserPosts();
+            alert("Profile updated!");
+        };
+
+        reader.readAsDataURL(newPhoto.files[0]);
+    } else {
+        saveUsers(users);
+        loadProfile();
+        loadUserPosts();
+        alert("Profile updated!");
+    }
+}

@@ -309,3 +309,28 @@ button {
 .post #comments strong {
     color: var(--color-secondary);
 }
+
+.postSection {
+  grid-column: 2 / 3;
+  margin-top: 24px;
+}
+
+.userPosts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.post {
+  background-color: var(--color-secondary-light);
+  border: 1px solid var(--color-secondary-light);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 2px 8px var(--color-text);
+}
+
+.postSection h3 {
+  margin: 0 0 12px 0;
+  color: var(--color-secondary);
+}
