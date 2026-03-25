@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page </title>
     <link rel="stylesheet" href="style.css">
+    <script src="profile.js"></script>
 
 </head>
 <body>
@@ -20,7 +21,7 @@
             </div>
 
             <form id="searchForm" role="search" aria-label="Search on Postify" class="searchBar">
-                <input id="searchBar" 
+                <input id="searchInput" 
                 name="search" 
                 type="search" 
                 placeholder="Search Postify..." 
@@ -64,7 +65,6 @@
                     </div>
                 </div>
             </div>
-            <p id="editProfileMessage" class="msg"><small>No post yet.</small></p>
         </section>
 
         <aside class="rightSideBar">
@@ -84,6 +84,13 @@
                 </form>
             </section>
         </aside>
+
+        <section class="postSection">
+            <h3>My Posts</h3>
+            <div class="userPosts">
+
+            </div>
+        </section>
     </main>
 
     <footer>
