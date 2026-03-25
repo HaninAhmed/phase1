@@ -7,19 +7,46 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <section class="topBar">
-            <div class="logowithtext">
-                <img src="/images/postify logo.png" 
-                alt="Postify Logo" 
-                class="logo">
-                <h1>Postify</h1>
-            </div>
-        </section>
-    </header>
-    
-    <footer>
-      <p>&copy; 2026 Postify</p>
-    </footer>
+  <header>
+    <section class="topBar">
+      <div class="logowithtext">
+        <img src="/images/postify logo.png" alt="Postify Logo" class="logo">
+        <h1>Postify</h1>
+      </div>
+    </section>
+  </header>
+
+  <main class="authPage">
+    <div class="authCard">
+      <h2>Welcome back</h2>
+      <p class="authSubtitle">Log in to your Postify account</p>
+
+      <div id="errorMsg" class="errorMsg"></div>
+
+      <div class="authForm">
+        <div class="formGroup">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" placeholder="you@example.com">
+        </div>
+
+        <div class="formGroup">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter your password">
+        </div>
+
+        <button class="authBtn" onclick="handleLogin()">Log In</button>
+      </div>
+
+      <p class="authSwitch">
+        Don't have an account? <a href="register.html">Sign up</a>
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Postify</p>
+  </footer>
+
+  <script src="login.js"></script>
 </body>
 </html>

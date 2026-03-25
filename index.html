@@ -7,52 +7,50 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <section class="topBar">
-            <div class="logowithtext">
-                <a href="index.html">
-                    <img src="/images/postify logo.png" 
-                    alt="Postify Logo" 
-                    class="logo">
-                </a>
-                <h1>Postify</h1>
-            </div>
+  <header>
+    <section class="topBar">
+      <div class="logowithtext">
+        <a href="index.html">
+          <img src="/images/postify logo.png" alt="Postify Logo" class="logo">
+        </a>
+        <h1>Postify</h1>
+      </div>
 
-            <form id="searchForm" role="search" aria-label="Search on Postify" class="searchBar">
-                <input id="searchInput" 
-                name="search" 
-                type="search" 
-                placeholder="Search Postify..." 
-                class="searchBar">
-            </form>
-        </section>
-    </header>
-    
-    <main>
-              <aside class="leftSideBar">
-            <section class="userSideInfo">
-                <img src="/images/profilePhoto.png"
-                alt="userPhoto"
-                class="userPhoto"
-                id="userPhoto">
-                <div class="userInfo">
-                    <p id="userName"
-                    class="userName"
-                    >UserName</p>
-                </div>
-            </section>
+      <form id="searchForm" role="search" aria-label="Search on Postify" class="searchBar">
+        <input id="searchInput"
+          name="search"
+          type="search"
+          placeholder="Search Postify..."
+          class="searchBar">
+      </form>
+    </section>
+  </header>
 
-            <nav class="navBar">
-                <a href="profile.html" class="pageLink">Profile</a>
-                <a href="loginpage.html" class="pageLink">Log out</a>
-                
-            </nav>
+  <main>
+    <aside class="leftSideBar">
+      <section class="userSideInfo">
+        <img src="/images/profilePhoto.png"
+          alt="userPhoto"
+          class="userPhoto"
+          id="userPhoto">
+        <div class="userInfo">
+          <p id="userName" class="userName">UserName</p>
+        </div>
+      </section>
 
-            <button type="button" class="mainBtn" onclick="window.location.href='feed.html'">+ New Post</button>
-        </aside>
-    </main>
-    <footer>
-      <p>&copy; 2026 Postify</p>
-    </footer>
+      <nav class="navBar">
+        <a href="profile.html" class="pageLink">Profile</a>
+        <a href="loginpage.html" class="pageLink" onclick="logout(); return false;">Log out</a>
+      </nav>
+
+      <button type="button" class="mainBtn" onclick="window.location.href='feed.html'">+ New Post</button>
+    </aside>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Postify</p>
+  </footer>
+
+  <script src="index.js"></script>
 </body>
 </html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Postify</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <section class="topBar">
+      <div class="logowithtext">
+        <img src="/images/postify logo.png" alt="Postify Logo" class="logo">
+        <h1>Postify</h1>
+      </div>
+    </section>
+  </header>
+
+  <main class="authPage">
+    <div class="authCard">
+      <h2>Create account</h2>
+      <p class="authSubtitle">Join Postify and start sharing</p>
+
+      <div id="errorMsg" class="errorMsg"></div>
+      <div id="successMsg" class="successMsg"></div>
+
+      <div class="authForm">
+        <div class="formGroup">
+          <label for="regUsername">Username</label>
+          <input type="text" id="regUsername" placeholder="e.g. cooluser123">
+        </div>
+
+        <div class="formGroup">
+          <label for="regEmail">Email</label>
+          <input type="email" id="regEmail" placeholder="you@example.com">
+        </div>
+
+        <div class="formGroup">
+          <label for="regPassword">Password</label>
+          <input type="password" id="regPassword" placeholder="At least 6 characters">
+          <span class="hint">Minimum 6 characters</span>
+        </div>
+
+        <div class="formGroup">
+          <label for="regConfirm">Confirm Password</label>
+          <input type="password" id="regConfirm" placeholder="Repeat your password">
+        </div>
+
+        <button class="authBtn" onclick="handleRegister()">Create Account</button>
+      </div>
+
+      <p class="authSwitch">
+        Already have an account? <a href="loginpage.html">Log in</a>
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Postify</p>
+  </footer>
+
+  <script src="register.js"></script>
+</body>
+</html>
