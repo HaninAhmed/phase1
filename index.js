@@ -26,45 +26,40 @@ function saveUsers(users) {
   localStorage.setItem("users", JSON.stringify(users));
 }
 
-function getCurrentUser() {
-  return JSON.parse(localStorage.getItem("currentUser"));
-}
-
-function saveCurrentUser(username) {
-  localStorage.setItem("currentUser", JSON.stringify(user));
-}
-
 function isFollowing(username) {
-  let currentUser = getCurrentUser();
+  let users = getUsers();
 
-  if (!currentUser || !currentUser.following) return false;
-  return currentUser.following.includes(username);
+  let userObj = users.find(function(user) {
+    return user.username === username;
+  });
+
+  if (!userObj || !userObj.following) return false;
+  return userObj.following.includes(username);
 }
 
 function loadFollowing() {
   let users = getUsers();
-  let currentUser = getCurrentUser();
 
   let container = document.getElementById("followingList");
 
-  if (!container || !currentUser) return;
+  if (!container) return;
 
   container.innerHTML = "";
 
   users.forEach(user => {
-    if (user.username === currentUser.username) return;
+    if (user.username === currentUser) return;
 
     let btnText = isFollowing(user.username) ? "Unfollow" : "Follow";
 
     let card = document.createElement("div");
-    card.className = "followingCard";
+    card.className = "followLine";
 
     card.innerHTML = `
       <div class="followingInfo">
         <img class="followingPhoto" src="${user.photo || 'images/default-photo.jpg'}" alt="${user.username}">
         <h3>${user.username}</h3>
       </div>
-      <button class="mainbtn" onclick="followUnfollow('${user.username}')">${btnText}</button>
+      <button class="mainBtn" onclick="followUnfollow('${user.username}')">${btnText}</button>
     `;
     
     container.appendChild(card);
@@ -73,11 +68,10 @@ function loadFollowing() {
 
 function followUnfollow(followUsername) {
   let users = getUsers();
-  let currentUser = getCurrentUser();
 
   if (!currentUser) return;
 
-  let userIndex = users.findIndex(user => user.username === currentUser.username);
+  let userIndex = users.findIndex(user => user.username === currentUser);
 
   if (userIndex === -1) return;
 
@@ -94,7 +88,6 @@ function followUnfollow(followUsername) {
   }
 
   saveUsers(users);
-  saveCurrentUser(users[userIndex]);
   loadFollowing();
 }
 
