@@ -16,18 +16,10 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
-function getFollowingUsers() {
-  let users = JSON.parse(localStorage.getItem("users")) || [];
-  let currentUserObj = users.find(u => u.username === currentUser);
-  if (!currentUserObj || !currentUserObj.following) return [];
-  return currentUserObj.following;
-}
-
-
-// Show my own posts in the feed and folling post
+// Show all posts in the feed
 function loadFeed() {
   let posts = JSON.parse(localStorage.getItem("posts")) || [];
-  let feed = document.getElementById("feed");
+  let feed = document.getElementById("homeFeed");
 
   feed.innerHTML = "";
 
@@ -218,12 +210,12 @@ function deletePost(id) {
 
   localStorage.setItem("posts", JSON.stringify(posts));
 
-  if (document.getElementById("mypostFeed")) {
-    loadMyPosts();
-  }
-  if (document.getElementById("homeFeed")) {
-    loadFeed();
-  }
+      if (document.getElementById("mypostFeed")) {
+        loadMyPosts();
+      }
+      if (document.getElementById("homeFeed")) {
+        loadFeed();
+      }
 }
 
 // View a single post
@@ -255,13 +247,12 @@ function likePost(id) {
   });
 
   localStorage.setItem("posts", JSON.stringify(posts));
-  if (document.getElementById("mypostFeed")) {
-    loadMyPosts();
-  }
-  if (document.getElementById("homeFeed")) {
-    loadFeed();
-  }
-}
+      if (document.getElementById("mypostFeed")) {
+        loadMyPosts();
+      }
+      if (document.getElementById("homeFeed")) {
+        loadFeed();
+      }}
 
 //add comment sec
 
@@ -295,10 +286,10 @@ function addComment(id) {
 
   localStorage.setItem("posts", JSON.stringify(posts));
   input.value = "";
-  if (document.getElementById("mypostFeed")) {
-    loadMyPosts();
-  }
-  if (document.getElementById("homeFeed")) {
-    loadFeed();
-  }
+      if (document.getElementById("mypostFeed")) {
+        loadMyPosts();
+      }
+      if (document.getElementById("homeFeed")) {
+        loadFeed();
+      }
 }
