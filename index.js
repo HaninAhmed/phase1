@@ -56,7 +56,7 @@ function loadFollowing() {
 
     card.innerHTML = `
       <div class="followingInfo">
-        <img class="followingPhoto" src="${user.photo || 'images/default-photo.jpg'}" alt="${user.username}">
+        <img class="followingPhoto" src="${user.photo || 'images/profilePhoto.png'}" alt="${user.username}">
         <h3>${user.username}</h3>
       </div>
       <button class="mainBtn" onclick="followUnfollow('${user.username}')">${btnText}</button>
@@ -71,20 +71,27 @@ function followUnfollow(followUsername) {
 
   if (!currentUser) return;
 
-  let userIndex = users.findIndex(user => user.username === currentUser);
+  let currentuserIndex = users.findIndex(user => user.username === currentUser);
+  let followUserIndex = users.findIndex(user => user.username === followUsername);
 
-  if (userIndex === -1) return;
+  if (currentuserIndex === -1 || followUserIndex === -1) return;
 
-  if (!users[userIndex].following) {
-    users[userIndex].following = [];
+  if (!users[currentuserIndex].following) {
+    users[currentuserIndex].following = [];
   }
 
-  let isFollowing = users[userIndex].following.includes(followUsername);
+  if (!users[followUserIndex].followers) {
+    users[followUserIndex].followers = [];
+  }
 
-  if (isFollowing) {
-    users[userIndex].following = users[userIndex].following.filter(username => username !== followUsername);
+  let isFollowing = users[currentuserIndex].following.includes(followUsername);
+
+  if (isFollowing) {  
+    users[currentuserIndex].following = users[currentuserIndex].following.filter(username => username !== followUsername);
+    users[followUserIndex].followers = users[followUserIndex].followers.filter(username => username !== currentUser);
   } else {
-    users[userIndex].following.push(followUsername);
+    users[currentuserIndex].following.push(followUsername);
+    users[followUserIndex].followers.push(currentUser);
   }
 
   saveUsers(users);
