@@ -18,10 +18,20 @@
     </section>
   </header>
 
-  <div class="postViewPage">
-    <a class="backLink" href="feed.html">&#8592; Back to posts</a>
+  <main>
+    <nav class="navBar">
+          <a href="index.html" class="pageLink">Home</a>
+            <a href="feed.html" class="pageLink">My Posts</a>
+            <a href="profile.html" class="pageLink">Profile</a>
+            <a href="loginpage.html" class="pageLink" onclick="logout(); return false;">Log out</a>
+        </nav>
+
+          <div class="postViewPage">
+    <a class="backLink" href="feed.html">&#8592; Go Back</a>
     <div id="postContainer"></div>
   </div>
+  </main>
+
 
   <footer>
     <p>&copy; 2026 Postify</p>

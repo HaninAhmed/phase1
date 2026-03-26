@@ -53,7 +53,7 @@ function loadFeed() {
       <button onclick="likePost(${post.id})">${heart} ${likesCount}</button>
       <button onclick="toggleCommentBox(${post.id})">Comment</button>
       <button onclick="viewPost(${post.id})">View</button>
-      <button onclick="deletePost(${post.id})">Delete</button>
+      ${post.user === currentUser ? `<button onclick="deletePost(${post.id})">Delete</button>` : ""}
      </div>
       <div id="commentBox-${post.id}" style="display:none; margin-top:8px;">
         <input type="text" id="commentInput-${post.id}" placeholder="Write a comment..." style="width:70%;">
@@ -192,18 +192,26 @@ function createPost() {
 function deletePost(id) {
   let posts = JSON.parse(localStorage.getItem("posts")) || [];
 
+  let deletePost = posts.filter(function(post) {
+    return post.id !== id;
+  });
+
+  if (!deletePost || deletePost.user !== currentUser) {
+    return;
+  }
+  
   posts = posts.filter(function(post) {
     return post.id !== id;
   });
 
   localStorage.setItem("posts", JSON.stringify(posts));
 
-      if (document.getElementById("mypostFeed")) {
-        loadMyPosts();
-      }
-      if (document.getElementById("homeFeed")) {
-        loadFeed();
-      }
+  if (document.getElementById("mypostFeed")) {
+    loadMyPosts();
+  }
+  if (document.getElementById("homeFeed")) {
+    loadFeed();
+  }
 }
 
 // View a single post
@@ -285,6 +293,19 @@ function addComment(id) {
 // ---------------------------------------- index.js ----------------------------------------------
 // -----------------------------------------------------------------------------------------------=
 // ---------------------------------------------------------------------------------
+
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let user = users.find(function(u) {
+  return u.username === currentUser;
+});
+
+if (document.getElementById("userName")) {
+  document.getElementById("userName").textContent = currentUser;
+}
+
+if (user && user.photo && document.getElementById("userPhoto")) {
+  document.getElementById("userPhoto").src = user.photo;
+}
 
 function getUsers() {
   return JSON.parse(localStorage.getItem("users")) || [];
