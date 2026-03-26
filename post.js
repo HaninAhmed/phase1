@@ -18,6 +18,18 @@ function savePosts(posts) {
   localStorage.setItem("posts", JSON.stringify(posts));
 }
 
+function getMediaHTML(media) {
+  if (!media) return "";
+  if (media.startsWith("data:image")) {
+    return `<img src="${media}" style="max-width:100%; margin-top:8px; border-radius:8px;">`;
+  } else if (media.startsWith("data:video")) {
+    return `<video controls style="max-width:100%; margin-top:8px; border-radius:8px;">
+              <source src="${media}">
+            </video>`;
+  }
+  return "";
+}
+
 function renderPost() {
   let id = getPostId();
   let posts = getPosts();
@@ -48,7 +60,10 @@ function renderPost() {
     <div class="postFull">
       <div class="postAuthor">${post.user}</div>
       <div class="postTime">${post.time}</div>
-      <div class="postBody">${post.content}</div>
+      <div class="postBody">
+        ${post.content}
+        ${getMediaHTML(post.media)}
+      </div>
       <div class="postActions">
         <button class="secBtn" onclick="likePost(${post.id})">${heart} ${post.likes.length}</button>
       </div>

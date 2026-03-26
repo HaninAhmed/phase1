@@ -281,7 +281,7 @@ button {
 }
 
 .post button:hover {
-    background: var(--color-secondary);
+    background: var(--color-primary);
     color: var(--color-white);
 }
 
@@ -327,7 +327,22 @@ button {
     margin-top: 8px;
 }
 
+.pageLink {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
 
+.bigPlusButton {
+    font-size: 36px;           
+  cursor: pointer;
+  color: var(--color-secondary); 
+  transition: color 0.3s;
+}
+  
+.bigPlusButton:hover {
+    color: var(--color-primary);
+}
 
 /* ── Auth pages (login & register) ── */
 .authPage {

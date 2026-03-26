@@ -1,3 +1,10 @@
+if (!localStorage.getItem("currentUser")) {
+  window.location.href = "loginpage.html";
+}
+
+let currentUser = localStorage.getItem("currentUser");
+
+
 // Load posts when the page opens
 document.addEventListener("DOMContentLoaded", loadFeed);
 
@@ -27,10 +34,23 @@ function loadFeed() {
       });
     }
 
+    // Build media HTML
+    let mediaHTML = "";
+    if (post.media) {
+      if (post.media.startsWith("data:image")) {
+        mediaHTML = `<img src="${post.media}" style="max-width:100%; margin-top:8px; border-radius:8px;">`;
+      } else if (post.media.startsWith("data:video")) {
+        mediaHTML = `<video controls style="max-width:100%; margin-top:8px; border-radius:8px;">
+                        <source src="${post.media}">
+                     </video>`;
+      }
+    }
+
 
     postDiv.innerHTML = `
       <h4>${post.user}</h4>
       <p>${post.content}</p>
+      ${mediaHTML}
       <small>${post.time}</small>
       <br><br>
      <div class="postActionsRow">
@@ -56,8 +76,11 @@ function loadFeed() {
 // Create a new post
 function createPost() {
   let content = document.getElementById("postContent").value;
+  let mediaInput = document.getElementById("postMedia");
+  let file = mediaInput.files[0];
 
-  if (content.trim() === "") {
+
+  if (content.trim() === "" && !file) {
     alert("Post cannot be empty");
     return;
   }
@@ -65,21 +88,37 @@ function createPost() {
   let posts = JSON.parse(localStorage.getItem("posts")) || [];
   let currentUser = localStorage.getItem("currentUser") || "User";
 
+
+
   let newPost = {
     id: Date.now(),
     user: currentUser,
     content: content,
     time: new Date().toLocaleString(),
     likes: [],
-    comments: []
+    comments: [],
+    media: null,
   };
 
-  posts.push(newPost);
-  localStorage.setItem("posts", JSON.stringify(posts));
+  if (file) {
+    let reader = new FileReader();
+    reader.onload = function(e) {
+      newPost.media = e.target.result;
+      posts.push(newPost);
+      localStorage.setItem("posts", JSON.stringify(posts));
+      document.getElementById("postContent").value = "";
+      mediaInput.value = "";
+      loadFeed();
+    };
+    reader.readAsDataURL(file);
+  } else {
 
-  document.getElementById("postContent").value = "";
-
-  loadFeed();
+    posts.push(newPost);
+    localStorage.setItem("posts", JSON.stringify(posts));
+    document.getElementById("postContent").value = "";
+    loadFeed();
+  }
+ 
 }
 
 // Delete a post
