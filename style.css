@@ -331,6 +331,22 @@ button {
     flex-wrap: wrap;
     margin-top: 8px;
 }
+.pageLink {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.bigPlusButton {
+    font-size: 36px;           
+  cursor: pointer;
+  color: var(--color-secondary); 
+  transition: color 0.3s;
+}
+  
+.bigPlusButton:hover {
+    color: var(--color-primary);
+}
 
 
 

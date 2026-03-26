@@ -47,8 +47,10 @@
     <h3>Create Post</h3>
 
     <textarea id="postContent" placeholder="What do you want to post?"></textarea>
+    <!-- Add  upload to the post like photo and ved -->
+    <label for="postMedia" class="bigPlusButton">+</label>
+    <input type="file" id="postMedia" accept="image/*,video/*" style="display:none;">
 
-    <br><br>
 
     <button onclick="createPost()">Post</button>
 
