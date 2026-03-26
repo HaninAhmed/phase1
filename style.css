@@ -310,6 +310,25 @@ button {
     color: var(--color-secondary);
 }
 
+.post textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--color-border);
+    outline: none;
+    font-family: inherit;
+    resize: none;
+}
+
+.postActionsRow {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+
+
 /* ── Auth pages (login & register) ── */
 .authPage {
     min-height: 80vh;

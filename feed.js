@@ -33,11 +33,12 @@ function loadFeed() {
       <p>${post.content}</p>
       <small>${post.time}</small>
       <br><br>
-      <button onclick="viewPost(${post.id})">View</button>
-      <button onclick="deletePost(${post.id})">Delete</button>
-      <br><br>
+     <div class="postActionsRow">
       <button onclick="likePost(${post.id})">${heart} ${likesCount}</button>
       <button onclick="toggleCommentBox(${post.id})">Comment</button>
+      <button onclick="viewPost(${post.id})">View</button>
+      <button onclick="deletePost(${post.id})">Delete</button>
+     </div>
       <div id="commentBox-${post.id}" style="display:none; margin-top:8px;">
         <input type="text" id="commentInput-${post.id}" placeholder="Write a comment..." style="width:70%;">
         <button onclick="addComment(${post.id})">Post</button>
