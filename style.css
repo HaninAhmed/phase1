@@ -226,6 +226,11 @@ button {
     align-items: center;
 }
 
+.centerSide {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
 /* Right sidebar */
 .rightSideBar {
     display: flex;
@@ -294,7 +299,6 @@ button {
 }
 
 .postSection {
-    grid-column: 2 / 3;
     margin-top: 24px;
 }
 
