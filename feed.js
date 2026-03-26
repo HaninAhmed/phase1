@@ -8,9 +8,20 @@ let currentUser = localStorage.getItem("currentUser");
 // Load posts when the page opens
 document.addEventListener("DOMContentLoaded", loadFeed);
 
-// Show all posts in the feed
+function getFollowingUsers() {
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  let currentUserObj = users.find(u => u.username === currentUser);
+  if (!currentUserObj || !currentUserObj.following) return [];
+  return currentUserObj.following;
+}
+
+
+// Show my own posts in the feed and folling post
 function loadFeed() {
-  let posts = JSON.parse(localStorage.getItem("posts")) || [];
+  let allPosts = JSON.parse(localStorage.getItem("posts")) || [];
+  let following = getFollowingUsers();
+  following.push(currentUser); 
+  let posts = allPosts.filter(post => following.includes(post.user));
   let feed = document.getElementById("feed");
 
   feed.innerHTML = "";
