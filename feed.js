@@ -192,11 +192,11 @@ function createPost() {
 function deletePost(id) {
   let posts = JSON.parse(localStorage.getItem("posts")) || [];
 
-  let deletePost = posts.filter(function(post) {
-    return post.id !== id;
+  let postToDelete = posts.find(function(post) {
+    return post.id === id;
   });
 
-  if (!deletePost || deletePost.user !== currentUser) {
+  if (!postToDelete || postToDelete.user !== currentUser) {
     return;
   }
   
