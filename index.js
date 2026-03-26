@@ -29,12 +29,12 @@ function saveUsers(users) {
 function isFollowing(username) {
   let users = getUsers();
 
-  let userObj = users.find(function(user) {
-    return user.username === username;
+  let currentuserObj = users.find(function(user) {
+    return user.username === currentUser;
   });
 
-  if (!userObj || !userObj.following) return false;
-  return userObj.following.includes(username);
+  if (!currentuserObj || !currentuserObj.following) return false;
+  return currentuserObj.following.includes(username);
 }
 
 function loadFollowing() {

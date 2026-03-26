@@ -548,3 +548,50 @@ button {
 .addCommentBox input:focus {
     border-color: var(--color-primary);
 }
+
+/* follow unfollow */
+
+.discover {
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+}
+
+.followLine {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+#followList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.followingInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.followingPhoto {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.followLine .mainBtn{
+    padding: 6px 14px;
+    font-size: 0.85rem;
+}
+
+.followingInfo h3{
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
