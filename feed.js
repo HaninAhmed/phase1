@@ -6,12 +6,20 @@ let currentUser = localStorage.getItem("currentUser");
 
 
 // Load posts when the page opens
-document.addEventListener("DOMContentLoaded", loadFeed);
+document.addEventListener("DOMContentLoaded", function() {
+  if(document.getElementById("mypostFeed")){
+    loadMyPosts();
+    
+  }
+  if(document.getElementById("homeFeed")){
+    loadFeed();
+  }
+});
 
 // Show all posts in the feed
 function loadFeed() {
   let posts = JSON.parse(localStorage.getItem("posts")) || [];
-  let feed = document.getElementById("feed");
+  let feed = document.getElementById("homeFeed");
 
   feed.innerHTML = "";
 
@@ -73,6 +81,71 @@ function loadFeed() {
   });
 }
 
+function loadMyPosts() {
+  let posts = JSON.parse(localStorage.getItem("posts")) || [];
+  let feed = document.getElementById("mypostFeed");
+
+  feed.innerHTML = "";
+
+  posts.forEach(function(post) {
+    if (post.user === localStorage.getItem("currentUser")) {
+      let postDiv = document.createElement("div");
+      postDiv.classList.add("post");
+
+
+
+      let currentUser = localStorage.getItem("currentUser") || "User";
+      let liked = post.likes.includes(currentUser);
+      let heart = liked ? "❤️" : "🤍";
+      // Count of likes
+      let likesCount = post.likes.length;
+      // Build the comments HTML
+      let commentsHTML = "";
+      if (post.comments.length > 0) {
+        post.comments.forEach(comment => {
+          commentsHTML += `<p><strong>${comment.user}:</strong> ${comment.text}</p>`;
+        });
+      }
+
+      // Build media HTML
+      let mediaHTML = "";
+      if (post.media) {
+        if (post.media.startsWith("data:image")) {
+          mediaHTML = `<img src="${post.media}" style="max-width:100%; margin-top:8px; border-radius:8px;">`;
+        } else if (post.media.startsWith("data:video")) {
+          mediaHTML = `<video controls style="max-width:100%; margin-top:8px; border-radius:8px;">
+                          <source src="${post.media}">
+                       </video>`;
+        }
+      }
+
+
+      postDiv.innerHTML = `
+        <h4>${post.user}</h4>
+        <p>${post.content}</p>
+        ${mediaHTML}
+        <small>${post.time}</small>
+        <br><br>
+       <div class="postActionsRow">
+        <button onclick="likePost(${post.id})">${heart} ${likesCount}</button>
+        <button onclick="toggleCommentBox(${post.id})">Comment</button>
+        <button onclick="viewPost(${post.id})">View</button>
+        <button onclick="deletePost(${post.id})">Delete</button>
+       </div>
+        <div id="commentBox-${post.id}" style="display:none; margin-top:8px;">
+          <input type="text" id="commentInput-${post.id}" placeholder="Write a comment..." style="width:70%;">
+          <button onclick="addComment(${post.id})">Post</button>
+        </div>
+        <div id="comments-${post.id}" style="margin-top:8px;">
+          ${commentsHTML}
+        </div>
+      `;
+
+      feed.appendChild(postDiv);
+    }
+  });
+}
+
 // Create a new post
 function createPost() {
   let content = document.getElementById("postContent").value;
@@ -116,7 +189,13 @@ function createPost() {
     posts.push(newPost);
     localStorage.setItem("posts", JSON.stringify(posts));
     document.getElementById("postContent").value = "";
-    loadFeed();
+    
+    if (document.getElementById("mypostFeed")) {
+      loadMyPosts();
+    } 
+    if (document.getElementById("homeFeed")) {
+      loadFeed();
+    }
   }
  
 }
@@ -131,7 +210,12 @@ function deletePost(id) {
 
   localStorage.setItem("posts", JSON.stringify(posts));
 
-  loadFeed();
+  if (document.getElementById("mypostFeed")) {
+    loadMyPosts();
+  }
+  if (document.getElementById("homeFeed")) {
+    loadFeed();
+  }
 }
 
 // View a single post
@@ -163,7 +247,12 @@ function likePost(id) {
   });
 
   localStorage.setItem("posts", JSON.stringify(posts));
-  loadFeed();
+  if (document.getElementById("mypostFeed")) {
+    loadMyPosts();
+  }
+  if (document.getElementById("homeFeed")) {
+    loadFeed();
+  }
 }
 
 //add comment sec
@@ -198,5 +287,10 @@ function addComment(id) {
 
   localStorage.setItem("posts", JSON.stringify(posts));
   input.value = "";
-  loadFeed();
+  if (document.getElementById("mypostFeed")) {
+    loadMyPosts();
+  }
+  if (document.getElementById("homeFeed")) {
+    loadFeed();
+  }
 }
