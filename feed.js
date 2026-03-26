@@ -11,13 +11,24 @@ function loadFeed() {
 
   feed.innerHTML = "";
 
+  let users = JSON.parse(localStorage.getItem("users")) || [];  
+  let currentUserData = users.find(function(user) {
+    return user.username === currentUser;
+  });
+
+  let followingList = [];
+  if (currentUserData && currentUserData.following) {
+    followingList = currentUserData.following;
+  }
+
+  posts = posts.filter(function(post) {
+    return followingList.includes(post.user) || post.user === currentUser;
+  });
+
   posts.forEach(function(post) {
     let postDiv = document.createElement("div");
     postDiv.classList.add("post");
 
-
-
-    let currentUser = localStorage.getItem("currentUser") || "User";
     let liked = post.likes.includes(currentUser);
     let heart = liked ? "❤️" : "🤍";
     // Count of likes
