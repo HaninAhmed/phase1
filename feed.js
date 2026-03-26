@@ -16,10 +16,18 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
-// Show all posts in the feed
+function getFollowingUsers() {
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  let currentUserObj = users.find(u => u.username === currentUser);
+  if (!currentUserObj || !currentUserObj.following) return [];
+  return currentUserObj.following;
+}
+
+
+// Show my own posts in the feed and folling post
 function loadFeed() {
   let posts = JSON.parse(localStorage.getItem("posts")) || [];
-  let feed = document.getElementById("homeFeed");
+  let feed = document.getElementById("feed");
 
   feed.innerHTML = "";
 
