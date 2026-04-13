@@ -7,6 +7,11 @@ let currentUser = localStorage.getItem("currentUser");
 // Show all posts in the feed
 function loadFeed() {
   let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+  posts.sort(function(a, b) {
+    return b.id - a.id;
+  });
+
   let feed = document.getElementById("homeFeed");
 
   feed.innerHTML = "";
@@ -37,7 +42,12 @@ function loadFeed() {
     let commentsHTML = "";
     if (post.comments.length > 0) {
       post.comments.forEach(comment => {
-        commentsHTML += `<p><strong>${comment.user}:</strong> ${comment.text}</p>`;
+        commentsHTML += `
+          <div>
+            <span><strong>${comment.user}:</strong> ${comment.text}</span>
+            ${comment.user === currentUser ? `<button class="deletebtn" onclick="deleteComment(${post.id}, ${comment.id})">Delete</button>` : ""}
+          </div>
+        `;
       });
     }
 
@@ -82,6 +92,11 @@ function loadFeed() {
 
 function loadMyPosts() {
   let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+  posts.sort(function(a, b) {
+    return b.id - a.id;
+  });
+
   let feed = document.getElementById("mypostFeed");
 
   feed.innerHTML = "";
@@ -102,7 +117,12 @@ function loadMyPosts() {
       let commentsHTML = "";
       if (post.comments.length > 0) {
         post.comments.forEach(comment => {
-          commentsHTML += `<p><strong>${comment.user}:</strong> ${comment.text}</p>`;
+          commentsHTML += `
+           <div>
+              <span><strong>${comment.user}:</strong> ${comment.text}</span>
+              ${comment.user === currentUser ? `<button class="deletebtn" onclick="deleteComment(${post.id}, ${comment.id})">Delete</button>` : ""}
+           </div>
+          `;
         });
       }
 
@@ -286,7 +306,7 @@ function addComment(id) {
 
   posts = posts.map(post => {
     if (post.id === id) {
-      post.comments.push({ user: currentUser, text: commentText });
+      post.comments.push({id: Date.now(), user: currentUser, text: commentText });
     }
     return post;
   });
@@ -301,6 +321,28 @@ function addComment(id) {
       }
 }
 
+
+function deleteComment(postId, commentId) {
+  let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+  posts = posts.map(post => {  
+    if (post.id === postId) {
+      post.comments = post.comments.filter(function(comment) {  
+      return comment.id !== commentId;
+    });
+  }
+    return post;
+  });
+
+  localStorage.setItem("posts", JSON.stringify(posts));
+
+  if(document.getElementById("mypostFeed")) {
+    loadMyPosts();
+  }
+  if(document.getElementById("homeFeed")) {
+    loadFeed();
+  } 
+}
 // ---------------------------------------- index.js ----------------------------------------------
 // -----------------------------------------------------------------------------------------------=
 // ---------------------------------------------------------------------------------

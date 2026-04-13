@@ -274,7 +274,7 @@ button {
     gap: var(--spacing-sm);
 }
 
-.post button {
+.post button{
     padding: 6px 12px;
     border-radius: var(--radius-pill);
     font-size: 0.9rem;
@@ -285,6 +285,13 @@ button {
     cursor: pointer;
     transition: 0.3s;
 }
+
+.post .deletebtn,
+.postFull .deletebtn {
+    background-color: #970f00;
+    color: var(--color-white);
+}
+
 
 .post button:hover {
     background: var(--color-secondary);

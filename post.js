@@ -48,11 +48,13 @@ function renderPost() {
   if (post.comments.length === 0) {
     commentsHTML = '<p class="msg">No comments yet. Be the first!</p>';
   } else {
-    post.comments.forEach(function(c) {
+    post.comments.forEach(comment => {
       commentsHTML += `
-        <div class="commentItem">
-          <strong>${c.user}:</strong> ${c.text}
-        </div>`;
+        <div>
+          <span><strong>${comment.user}:</strong> ${comment.text}</span>
+          ${comment.user === currentUser ? `<button class="deletebtn" onclick="deleteComment(${post.id}, ${comment.id})">Delete</button>` : ""}
+        </div>
+      `;
     });
   }
 
@@ -111,7 +113,7 @@ function addComment(id) {
   let posts = getPosts();
   posts = posts.map(function(p) {
     if (p.id === id) {
-      p.comments.push({ user: currentUser, text: text });
+      p.comments.push({id: Date.now(), user: currentUser, text: text });
     }
     return p;
   });
@@ -119,5 +121,23 @@ function addComment(id) {
   input.value = "";
   renderPost();
 }
+
+
+function deleteComment(postId, commentId) {
+  let posts = getPosts();
+
+  posts = posts.map(function(p) {  
+    if (p.id === postId) {
+      p.comments = p.comments.filter(function(comment) {  
+      return comment.id !== commentId;
+    });
+  }
+    return p;
+  });
+
+  savePosts(posts);
+  renderPost();
+} 
+
 
 renderPost();
