@@ -4,7 +4,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "dev": "node_modules/.bin/next dev",
+    "build": "node_modules/.bin/next build",
+    "start": "node_modules/.bin/next start",
     "test": "echo \"Error: no test specified\" && exit 1"
+
   },
   "prisma": {
     "seed": "node prisma/seed.js"
@@ -22,7 +26,10 @@
   "homepage": "https://github.com/HaninAhmed/phase1#readme",
   "description": "",
   "dependencies": {
-    "@prisma/client": "^6.19.3"
+    "@prisma/client": "^6.19.3",
+    "next": "^16.2.4",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "devDependencies": {
     "prisma": "^6.19.3"
