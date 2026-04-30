@@ -4,6 +4,13 @@ const prisma = new PrismaClient();
 
 async function main() {
 
+    
+    await prisma.follow.deleteMany();
+    await prisma.like.deleteMany();
+    await prisma.comment.deleteMany();
+    await prisma.post.deleteMany();
+    await prisma.user.deleteMany();
+
     const user1 = await prisma.user.create({
         data: {
             username: "aisha",
