@@ -1,23 +1,17 @@
 // Auth guard
-if (!localStorage.getItem("currentUser")) {
+if (!sessionStorage.getItem("currentUser")) {
   window.location.href = "loginpage.html";
 }
 
-let currentUser = localStorage.getItem("currentUser");
-document.getElementById("userName").textContent = currentUser;
+let currentUser = sessionStorage.getItem("currentUser");
+let currentUserId = sessionStorage.getItem("currentUserId");
 
-let users = JSON.parse(localStorage.getItem("users")) || [];
-let user = users.find(function(u) { return u.username === currentUser; });
-if (user && user.photo) {
-  document.getElementById("userPhoto").src = user.photo;
+if (document.getElementById("userName")) {
+  document.getElementById("userName").textContent = currentUser;
 }
 
 function logout() {
-  localStorage.removeItem("currentUser");
+  sessionStorage.removeItem("currentUser");
+  sessionStorage.removeItem("currentUserId");
   window.location.href = "loginpage.html";
-
-
-document.addEventListener("DOMContentLoaded", function() {
-  loadFollowing();
-});
 }

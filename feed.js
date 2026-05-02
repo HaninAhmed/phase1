@@ -1,462 +1,318 @@
-if (!localStorage.getItem("currentUser")) {
+// Auth guard
+if (!sessionStorage.getItem("currentUser")) {
   window.location.href = "loginpage.html";
 }
 
-let currentUser = localStorage.getItem("currentUser");
+let currentUser = sessionStorage.getItem("currentUser");
+let currentUserId = sessionStorage.getItem("currentUserId");
 
-// Show all posts in the feed
-function loadFeed() {
-  let posts = JSON.parse(localStorage.getItem("posts")) || [];
 
-  posts.sort(function(a, b) {
-    return b.id - a.id;
-  });
 
+async function loadFeed() {
   let feed = document.getElementById("homeFeed");
+  if (!feed) return;
 
-  feed.innerHTML = "";
+  feed.innerHTML = "<p>Loading...</p>";
 
-  let users = JSON.parse(localStorage.getItem("users")) || [];  
-  let currentUserData = users.find(function(user) {
-    return user.username === currentUser;
-  });
-
-  let followingList = [];
-  if (currentUserData && currentUserData.following) {
-    followingList = currentUserData.following;
+  try {
+    const res = await fetch(`/api/posts?userId=${currentUserId}`);
+    if (!res.ok) throw new Error("Failed to load feed");
+    const posts = await res.json();
+    feed.innerHTML = "";
+    if (posts.length === 0) {
+      feed.innerHTML = "<p>No posts yet. Follow some users!</p>";
+      return;
+    }
+    posts.forEach((post) => feed.appendChild(buildPostCard(post)));
+  } catch (err) {
+    feed.innerHTML = "<p>Failed to load feed. Please try again.</p>";
   }
-
-  posts = posts.filter(function(post) {
-    return followingList.includes(post.user) || post.user === currentUser;
-  });
-
-  posts.forEach(function(post) {
-    let postDiv = document.createElement("div");
-    postDiv.classList.add("post");
-
-    let liked = post.likes.includes(currentUser);
-    let heart = liked ? "❤️" : "🤍";
-    // Count of likes
-    let likesCount = post.likes.length;
-    // Build the comments HTML
-    let commentsHTML = "";
-    if (post.comments.length > 0) {
-      post.comments.forEach(comment => {
-        commentsHTML += `
-          <div>
-            <span><strong>${comment.user}:</strong> ${comment.text}</span>
-            ${comment.user === currentUser ? `<button class="deletebtn" onclick="deleteComment(${post.id}, ${comment.id})">Delete</button>` : ""}
-          </div>
-        `;
-      });
-    }
-
-    // Build media HTML
-    let mediaHTML = "";
-    if (post.media) {
-      if (post.media.startsWith("data:image")) {
-        mediaHTML = `<img src="${post.media}" style="max-width:100%; margin-top:8px; border-radius:8px;">`;
-      } else if (post.media.startsWith("data:video")) {
-        mediaHTML = `<video controls style="max-width:100%; margin-top:8px; border-radius:8px;">
-                        <source src="${post.media}">
-                     </video>`;
-      }
-    }
-
-
-    postDiv.innerHTML = `
-      <h4>${post.user}</h4>
-      <p>${post.content}</p>
-      ${mediaHTML}
-      <small>${post.time}</small>
-      <br><br>
-     <div class="postActionsRow">
-      <button onclick="likePost(${post.id})">${heart} ${likesCount}</button>
-      <button onclick="toggleCommentBox(${post.id})">Comment</button>
-      <button onclick="viewPost(${post.id})">View</button>
-      ${post.user === currentUser ? `<button onclick="deletePost(${post.id})">Delete</button>` : ""}
-     </div>
-      <div id="commentBox-${post.id}" style="display:none; margin-top:8px;">
-        <input type="text" id="commentInput-${post.id}" placeholder="Write a comment..." style="width:70%;">
-        <button onclick="addComment(${post.id})">Post</button>
-      </div>
-      <div id="comments-${post.id}" style="margin-top:8px;">
-        ${commentsHTML}
-      </div>
-    `;
-
-    feed.appendChild(postDiv);
-
-  });
 }
 
-function loadMyPosts() {
-  let posts = JSON.parse(localStorage.getItem("posts")) || [];
-
-  posts.sort(function(a, b) {
-    return b.id - a.id;
-  });
-
+async function loadMyPosts() {
   let feed = document.getElementById("mypostFeed");
+  if (!feed) return;
 
-  feed.innerHTML = "";
+  feed.innerHTML = "<p>Loading...</p>";
 
-  posts.forEach(function(post) {
-    if (post.user === localStorage.getItem("currentUser")) {
-      let postDiv = document.createElement("div");
-      postDiv.classList.add("post");
-
-
-
-      let currentUser = localStorage.getItem("currentUser") || "User";
-      let liked = post.likes.includes(currentUser);
-      let heart = liked ? "❤️" : "🤍";
-      // Count of likes
-      let likesCount = post.likes.length;
-      // Build the comments HTML
-      let commentsHTML = "";
-      if (post.comments.length > 0) {
-        post.comments.forEach(comment => {
-          commentsHTML += `
-           <div>
-              <span><strong>${comment.user}:</strong> ${comment.text}</span>
-              ${comment.user === currentUser ? `<button class="deletebtn" onclick="deleteComment(${post.id}, ${comment.id})">Delete</button>` : ""}
-           </div>
-          `;
-        });
-      }
-
-      // Build media HTML
-      let mediaHTML = "";
-      if (post.media) {
-        if (post.media.startsWith("data:image")) {
-          mediaHTML = `<img src="${post.media}" style="max-width:100%; margin-top:8px; border-radius:8px;">`;
-        } else if (post.media.startsWith("data:video")) {
-          mediaHTML = `<video controls style="max-width:100%; margin-top:8px; border-radius:8px;">
-                          <source src="${post.media}">
-                       </video>`;
-        }
-      }
-
-
-      postDiv.innerHTML = `
-        <h4>${post.user}</h4>
+  try {
+    const res = await fetch(`/api/users/${currentUser}`);
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    feed.innerHTML = "";
+    if (!data.posts || data.posts.length === 0) {
+      feed.innerHTML = "<p>You have not posted yet.</p>";
+      return;
+    }
+    data.posts.forEach((post) => {
+      
+      let div = document.createElement("div");
+      div.classList.add("post");
+      div.innerHTML = `
+        <h4>@${currentUser}</h4>
         <p>${post.content}</p>
-        ${mediaHTML}
         <small>${post.time}</small>
         <br><br>
-       <div class="postActionsRow">
-        <button onclick="likePost(${post.id})">${heart} ${likesCount}</button>
-        <button onclick="toggleCommentBox(${post.id})">Comment</button>
-        <button onclick="viewPost(${post.id})">View</button>
-        <button onclick="deletePost(${post.id})">Delete</button>
-       </div>
-        <div id="commentBox-${post.id}" style="display:none; margin-top:8px;">
-          <input type="text" id="commentInput-${post.id}" placeholder="Write a comment..." style="width:70%;">
-          <button onclick="addComment(${post.id})">Post</button>
-        </div>
-        <div id="comments-${post.id}" style="margin-top:8px;">
-          ${commentsHTML}
+        <div class="postActionsRow">
+          <span>❤️ ${post._count.likes}  💬 ${post._count.comments}</span>
+          <button onclick="viewPost(${post.id})">View</button>
+          <button onclick="deletePost(${post.id}, this)">Delete</button>
         </div>
       `;
-
-      feed.appendChild(postDiv);
-    }
-  });
+      feed.appendChild(div);
+    });
+  } catch (err) {
+    feed.innerHTML = "<p>Failed to load your posts.</p>";
+  }
 }
 
-// Create a new post
-function createPost() {
-  let content = document.getElementById("postContent").value;
+function buildPostCard(post) {
+  let liked = post.likes.some((l) => l.userId === parseInt(currentUserId));
+  let heart = liked ? "❤️" : "🤍";
+  let likesCount = post._count.likes;
+
+  let mediaHTML = "";
+  if (post.media) {
+    if (post.media.startsWith("data:image")) {
+      mediaHTML = `<img src="${post.media}" style="max-width:100%; margin-top:8px; border-radius:8px;">`;
+    } else if (post.media.startsWith("data:video")) {
+      mediaHTML = `<video controls style="max-width:100%; margin-top:8px; border-radius:8px;"><source src="${post.media}"></video>`;
+    }
+  }
+
+  let commentsHTML = post.comments
+    .map(
+      (c) => `
+    <div>
+      <span><strong>${c.user.username}:</strong> ${c.text}</span>
+      ${c.user.username === currentUser
+        ? `<button class="deletebtn" onclick="deleteComment(${c.id}, this)">Delete</button>`
+        : ""}
+    </div>`
+    )
+    .join("");
+
+  let div = document.createElement("div");
+  div.classList.add("post");
+  div.setAttribute("data-post-id", post.id);
+  div.innerHTML = `
+    <h4>@${post.user.username}</h4>
+    <p>${post.content}</p>
+    ${mediaHTML}
+    <small>${post.time}</small>
+    <br><br>
+    <div class="postActionsRow">
+      <button class="likeBtn" onclick="likePost(${post.id}, this)">${heart} <span class="likeCount">${likesCount}</span></button>
+      <button onclick="toggleCommentBox(${post.id})">💬 Comment</button>
+      <button onclick="viewPost(${post.id})">View</button>
+      ${post.user.username === currentUser ? `<button onclick="deletePost(${post.id}, this)">Delete</button>` : ""}
+    </div>
+    <div id="commentBox-${post.id}" style="display:none; margin-top:8px;">
+      <input type="text" id="commentInput-${post.id}" placeholder="Write a comment..." style="width:70%;">
+      <button onclick="addComment(${post.id})">Post</button>
+    </div>
+    <div id="comments-${post.id}" style="margin-top:8px;">${commentsHTML}</div>
+  `;
+  return div;
+}
+
+
+
+async function createPost() {
+  let content = document.getElementById("postContent").value.trim();
   let mediaInput = document.getElementById("postMedia");
-  let file = mediaInput.files[0];
+  let file = mediaInput ? mediaInput.files[0] : null;
 
-
-  if (content.trim() === "" && !file) {
-    alert("Post cannot be empty");
+  if (!content && !file) {
+    alert("Post cannot be empty.");
     return;
   }
 
-  let posts = JSON.parse(localStorage.getItem("posts")) || [];
-  let currentUser = localStorage.getItem("currentUser") || "User";
-
-
-
-  let newPost = {
-    id: Date.now(),
-    user: currentUser,
-    content: content,
-    time: new Date().toLocaleString(),
-    likes: [],
-    comments: [],
-    media: null,
-  };
-
+  let media = null;
   if (file) {
-    let reader = new FileReader();
-    reader.onload = function(e) {
-      newPost.media = e.target.result;
-      posts.push(newPost);
-      localStorage.setItem("posts", JSON.stringify(posts));
-      document.getElementById("postContent").value = "";
-      mediaInput.value = "";
-      loadFeed();
-    };
-    reader.readAsDataURL(file);
-  } else {
-
-    posts.push(newPost);
-    localStorage.setItem("posts", JSON.stringify(posts));
-    document.getElementById("postContent").value = "";
-    
-    if (document.getElementById("mypostFeed")) {
-      loadMyPosts();
-    } 
-    if (document.getElementById("homeFeed")) {
-      loadFeed();
-    }
+    media = await readFileAsDataURL(file);
   }
- 
+
+  try {
+    const res = await fetch("/api/posts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content, userId: currentUserId, media }),
+    });
+
+    if (!res.ok) throw new Error();
+
+    document.getElementById("postContent").value = "";
+    if (mediaInput) mediaInput.value = "";
+
+    if (document.getElementById("homeFeed")) loadFeed();
+    if (document.getElementById("mypostFeed")) loadMyPosts();
+  } catch (err) {
+    alert("Failed to create post. Please try again.");
+  }
 }
 
-// Delete a post
-function deletePost(id) {
-  let posts = JSON.parse(localStorage.getItem("posts")) || [];
-
-  let postToDelete = posts.find(function(post) {
-    return post.id === id;
+function readFileAsDataURL(file) {
+  return new Promise((resolve, reject) => {
+    let reader = new FileReader();
+    reader.onload = (e) => resolve(e.target.result);
+    reader.onerror = () => reject(new Error("File read failed"));
+    reader.readAsDataURL(file);
   });
+}
 
-  if (!postToDelete || postToDelete.user !== currentUser) {
+
+
+async function deletePost(id, btn) {
+  try {
+    const res = await fetch(`/api/posts/${id}`, { method: "DELETE" });
+    if (!res.ok) throw new Error();
+    // Remove card from DOM
+    let card = btn ? btn.closest(".post") : null;
+    if (card) card.remove();
+  } catch (err) {
+    alert("Failed to delete post.");
+  }
+}
+
+
+
+async function likePost(postId, btn) {
+  try {
+    const res = await fetch("/api/likes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: currentUserId, postId }),
+    });
+    const data = await res.json();
+    let countSpan = btn.querySelector(".likeCount");
+    let count = parseInt(countSpan.textContent);
+    btn.innerHTML = data.liked
+      ? `❤️ <span class="likeCount">${count + 1}</span>`
+      : `🤍 <span class="likeCount">${count - 1}</span>`;
+  } catch (err) {
+    alert("Failed to update like.");
+  }
+}
+
+
+
+function toggleCommentBox(id) {
+  let box = document.getElementById(`commentBox-${id}`);
+  box.style.display = box.style.display === "none" ? "block" : "none";
+}
+
+async function addComment(postId) {
+  let input = document.getElementById(`commentInput-${postId}`);
+  let text = input.value.trim();
+
+  if (!text) {
+    alert("Comment cannot be empty.");
     return;
   }
-  
-  posts = posts.filter(function(post) {
-    return post.id !== id;
-  });
 
-  localStorage.setItem("posts", JSON.stringify(posts));
+  try {
+    const res = await fetch("/api/comments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text, userId: currentUserId, postId }),
+    });
+    const comment = await res.json();
 
-  if (document.getElementById("mypostFeed")) {
-    loadMyPosts();
-  }
-  if (document.getElementById("homeFeed")) {
-    loadFeed();
+    let commentsList = document.getElementById(`comments-${postId}`);
+    let div = document.createElement("div");
+    div.innerHTML = `
+      <span><strong>${comment.user.username}:</strong> ${comment.text}</span>
+      <button class="deletebtn" onclick="deleteComment(${comment.id}, this)">Delete</button>
+    `;
+    commentsList.appendChild(div);
+    input.value = "";
+  } catch (err) {
+    alert("Failed to add comment.");
   }
 }
 
-// View a single post
+async function deleteComment(commentId, btn) {
+  try {
+    await fetch(`/api/comments?id=${commentId}`, { method: "DELETE" });
+    btn.closest("div").remove();
+  } catch (err) {
+    alert("Failed to delete comment.");
+  }
+}
+
+
+
 function viewPost(id) {
   window.location.href = "post.html?id=" + id;
 }
 
-// Logout function
+
+
 function logout() {
-  localStorage.removeItem("currentUser");
-  window.location.href = "index.html";
+  sessionStorage.removeItem("currentUser");
+  sessionStorage.removeItem("currentUserId");
+  window.location.href = "loginpage.html";
 }
 
-//add a like 
-function likePost(id) {
-  let posts = JSON.parse(localStorage.getItem("posts")) || [];
-  let currentUser = localStorage.getItem("currentUser") || "User";
 
-  posts = posts.map(post => {
-    if (post.id === id) {
-      // If user already liked, remove like; otherwise, add like
-      if (post.likes.includes(currentUser)) {
-        post.likes = post.likes.filter(user => user !== currentUser);
-      } else {
-        post.likes.push(currentUser);
-      }
+
+async function loadFollowing() {
+  let container = document.getElementById("followingList");
+  if (!container) return;
+
+  container.innerHTML = "<p>Loading users...</p>";
+
+  try {
+   
+    const res = await fetch("/api/statistics");
+    const stats = await res.json();
+
+    container.innerHTML = "";
+
+    const displayUsers = stats.top3ActiveUsers || [];
+    if (displayUsers.length === 0) {
+      container.innerHTML = "<p>No users found.</p>";
+      return;
     }
-    return post;
-  });
 
-  localStorage.setItem("posts", JSON.stringify(posts));
-      if (document.getElementById("mypostFeed")) {
-        loadMyPosts();
-      }
-      if (document.getElementById("homeFeed")) {
-        loadFeed();
-      }}
+    for (let u of displayUsers) {
+      if (u.username === currentUser) continue;
 
-//add comment sec
-
-function toggleCommentBox(id) {
-  let box = document.getElementById(`commentBox-${id}`);
-  if (box.style.display === "none") {
-    box.style.display = "block";
-  } else {
-    box.style.display = "none";
-  }
-}
-
-function addComment(id) {
-  let input = document.getElementById(`commentInput-${id}`);
-  let commentText = input.value.trim();
-
-  if (commentText === "") {
-    alert("Comment cannot be empty");
-    return;
-  }
-
-  let posts = JSON.parse(localStorage.getItem("posts")) || [];
-  let currentUser = localStorage.getItem("currentUser") || "User";
-
-  posts = posts.map(post => {
-    if (post.id === id) {
-      post.comments.push({id: Date.now(), user: currentUser, text: commentText });
+      const followRes = await fetch(
+        `/api/follows?followerId=${currentUserId}&followingId=${u.id || 0}`
+      );
+      // fallback: just show follow button
+      let card = document.createElement("div");
+      card.className = "followLine";
+      card.innerHTML = `
+        <div class="followingInfo">
+          <img class="followingPhoto" src="images/profilePhoto.png" alt="${u.username}">
+          <h3>@${u.username}</h3>
+        </div>
+        <button class="mainBtn" onclick="goToProfile('${u.username}')">View Profile</button>
+      `;
+      container.appendChild(card);
     }
-    return post;
-  });
+  } catch (err) {
+    container.innerHTML = "<p>Failed to load users.</p>";
+  }
+}
 
-  localStorage.setItem("posts", JSON.stringify(posts));
-  input.value = "";
-      if (document.getElementById("mypostFeed")) {
-        loadMyPosts();
-      }
-      if (document.getElementById("homeFeed")) {
-        loadFeed();
-      }
+function goToProfile(username) {
+  window.location.href = `profile.html?user=${username}`;
 }
 
 
-function deleteComment(postId, commentId) {
-  let posts = JSON.parse(localStorage.getItem("posts")) || [];
-
-  posts = posts.map(post => {  
-    if (post.id === postId) {
-      post.comments = post.comments.filter(function(comment) {  
-      return comment.id !== commentId;
-    });
-  }
-    return post;
-  });
-
-  localStorage.setItem("posts", JSON.stringify(posts));
-
-  if(document.getElementById("mypostFeed")) {
-    loadMyPosts();
-  }
-  if(document.getElementById("homeFeed")) {
-    loadFeed();
-  } 
-}
-// ---------------------------------------- index.js ----------------------------------------------
-// -----------------------------------------------------------------------------------------------=
-// ---------------------------------------------------------------------------------
-
-let users = JSON.parse(localStorage.getItem("users")) || [];
-let user = users.find(function(u) {
-  return u.username === currentUser;
-});
 
 if (document.getElementById("userName")) {
   document.getElementById("userName").textContent = currentUser;
 }
 
-if (user && user.photo && document.getElementById("userPhoto")) {
-  document.getElementById("userPhoto").src = user.photo;
-}
-
-function getUsers() {
-  return JSON.parse(localStorage.getItem("users")) || [];
-}
-
-function saveUsers(users) {
-  localStorage.setItem("users", JSON.stringify(users));
-}
-
-function isFollowing(username) {
-  let users = getUsers();
-
-  let currentuserObj = users.find(function(user) {
-    return user.username === currentUser;
-  });
-
-  if (!currentuserObj || !currentuserObj.following) return false;
-  return currentuserObj.following.includes(username);
-}
-
-function loadFollowing() {
-  let users = getUsers();
-
-  let container = document.getElementById("followingList");
-
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  users.forEach(user => {
-    if (user.username === currentUser) return;
-
-    let btnText = isFollowing(user.username) ? "Unfollow" : "Follow";
-
-    let card = document.createElement("div");
-    card.className = "followLine";
-
-    card.innerHTML = `
-      <div class="followingInfo">
-        <img class="followingPhoto" src="${user.photo || 'images/profilePhoto.png'}" alt="${user.username}">
-        <h3>${user.username}</h3>
-      </div>
-      <button class="mainBtn" onclick="followUnfollow('${user.username}')">${btnText}</button>
-    `;
-    
-    container.appendChild(card);
-  });
-}
-
-function followUnfollow(followUsername) {
-  let users = getUsers();
-
-  if (!currentUser) return;
-
-  let currentuserIndex = users.findIndex(user => user.username === currentUser);
-  let followUserIndex = users.findIndex(user => user.username === followUsername);
-
-  if (currentuserIndex === -1 || followUserIndex === -1) return;
-
-  if (!users[currentuserIndex].following) {
-    users[currentuserIndex].following = [];
-  }
-
-  if (!users[followUserIndex].followers) {
-    users[followUserIndex].followers = [];
-  }
-
-  let isFollowing = users[currentuserIndex].following.includes(followUsername);
-
-  if (isFollowing) {  
-    users[currentuserIndex].following = users[currentuserIndex].following.filter(username => username !== followUsername);
-    users[followUserIndex].followers = users[followUserIndex].followers.filter(username => username !== currentUser);
-  } else {
-    users[currentuserIndex].following.push(followUsername);
-    users[followUserIndex].followers.push(currentUser);
-  }
-
-  saveUsers(users);
-  loadFollowing();
-}
-
-
-
-
-// Load posts when the page opens
-document.addEventListener("DOMContentLoaded", function() {
-  if(document.getElementById("mypostFeed")){
-    loadMyPosts();
-    
-  }
-  if(document.getElementById("homeFeed")){
-    loadFeed();
-  }
-
-  if (document.getElementById("followingList")) {
-    loadFollowing();
-  }
-
+document.addEventListener("DOMContentLoaded", function () {
+  if (document.getElementById("mypostFeed")) loadMyPosts();
+  if (document.getElementById("homeFeed")) loadFeed();
+  if (document.getElementById("followingList")) loadFollowing();
   if (document.getElementById("userName")) {
     document.getElementById("userName").textContent = currentUser;
   }
