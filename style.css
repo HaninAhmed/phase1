@@ -63,8 +63,8 @@ header {
 }
 
 .logo {
-    width: 34px;
-    height: 34px;
+    width: 120px;
+    height: auto;
     object-fit: contain;
 }
 
@@ -617,4 +617,25 @@ button {
     font-size: 14px;
     font-weight: 600;
 }
+
+/*Mobile*/
+.container{
+    width: 100%;
+    padding: 10px;
+}
+
+/*tablet*/
+@media(min-width:768px){
+    .container{
+        width: 80%;
+    }
+}
+
+/*Desktop*/
+@media (min-width:1024px){
+    .container{
+        width: 60%;
+    }
+}
+
 
