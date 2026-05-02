@@ -92,7 +92,7 @@ function loadUserPosts() {
         return;
 }
 
-    userPosts.forEach(function(post) {
+    userPosts.reverse().forEach(function(post) {
         let postCard = document.createElement("div");
         postCard.classList.add("post");
 
