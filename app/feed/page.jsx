@@ -2,6 +2,109 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+
+
+function PostCard({ post, currentUser, currentUserId, onDelete, onView }) {
+  const [liked, setLiked] = useState(
+    post.likes?.some((l) => l.userId === parseInt(currentUserId))
+  );
+  const [likeCount, setLikeCount] = useState(post._count?.likes || 0);
+  const [showComment, setShowComment] = useState(false);
+  const [commentText, setCommentText] = useState("");
+  const [comments, setComments] = useState(post.comments || []);
+
+  async function toggleLike() {
+    const res = await fetch("/api/likes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: currentUserId, postId: post.id }),
+    });
+    const data = await res.json();
+    setLiked(data.liked);
+    setLikeCount((c) => (data.liked ? c + 1 : c - 1));
+  }
+
+  async function addComment() {
+    if (!commentText.trim()) return;
+    const res = await fetch("/api/comments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        text: commentText,
+        userId: currentUserId,
+        postId: post.id,
+      }),
+    });
+    const c = await res.json();
+    setComments((prev) => [...prev, c]);
+    setCommentText("");
+  }
+
+  async function delComment(id) {
+    await fetch(`/api/comments?id=${id}`, { method: "DELETE" });
+    setComments((prev) => prev.filter((c) => c.id !== id));
+  }
+
+  return (
+    <div className="post">
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div>
+          <strong style={{ color: "#d85c9d" }}>@{currentUser}</strong>
+          <span style={{ color: "#999", fontSize: 12, marginLeft: 10 }}>
+            {post.time}
+          </span>
+        </div>
+        <button onClick={() => onDelete(post.id)} className="deletebtn">
+          Delete
+        </button>
+      </div>
+
+      <p>{post.content}</p>
+
+      <div className="postActionsRow">
+        <button onClick={toggleLike}>
+          {liked ? "Unlike" : "Like"} ({likeCount})
+        </button>
+        <button onClick={() => setShowComment((s) => !s)}>
+          Comment ({comments.length})
+        </button>
+        <button onClick={() => onView(post.id)} className="secBtn">
+          View
+        </button>
+      </div>
+
+      {showComment && (
+        <div>
+          {comments.map((c) => (
+            <div key={c.id} className="commentItem">
+              <strong>{c.user?.username}:</strong> {c.text}
+              {c.user?.username === currentUser && (
+                <button
+                  onClick={() => delComment(c.id)}
+                  className="deletebtn"
+                  style={{ marginLeft: 8 }}
+                >
+                  Delete
+                </button>
+              )}
+            </div>
+          ))}
+          <div className="addCommentBox">
+            <input
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && addComment()}
+              placeholder="Write a comment..."
+            />
+            <button onClick={addComment} className="mainBtn">
+              Comment
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 export default function FeedPage() {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState("");
@@ -111,28 +214,14 @@ export default function FeedPage() {
               <p className="msg">You have not posted yet.</p>
             ) : (
               posts.map((post) => (
-                <div key={post.id} className="post">
-                  <h4>@{currentUser}</h4>
-                  <p>{post.content}</p>
-                  <small>{post.time}</small>
-                  <div className="postActionsRow">
-                    <span>
-                      Likes: {post._count?.likes} &nbsp; Comments: {post._count?.comments}
-                    </span>
-                    <button
-                      onClick={() => router.push(`/post?id=${post.id}`)}
-                      className="secBtn"
-                    >
-                      View
-                    </button>
-                    <button
-                      onClick={() => deletePost(post.id)}
-                      className="deletebtn"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  currentUser={currentUser}
+                  currentUserId={currentUserId}
+                  onDelete={(id) => setPosts((prev) => prev.filter((p) => p.id !== id))}
+                  onView={(id) => router.push(`/post?id=${id}`)}
+                />
               ))
             )}
           </div>
