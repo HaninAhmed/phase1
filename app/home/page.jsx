@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 function PostCard({ post, currentUser, currentUserId, onDelete }) {
+  const router = useRouter();
   const [liked, setLiked] = useState(
     post.likes?.some((l) => l.userId === parseInt(currentUserId))
   );
@@ -81,6 +82,9 @@ function PostCard({ post, currentUser, currentUserId, onDelete }) {
         <button onClick={() => setShowComment((s) => !s)}>
           Comment ({comments.length})
         </button>
+        <button onClick={() => router.push(`/post?id=${post.id}`)}>
+          View
+        </button>
       </div>
 
       {showComment && (
@@ -141,7 +145,7 @@ export default function HomePage() {
       const res = await fetch(`/api/posts?userId=${userId}`);
       const data = await res.json();
       setPosts(data);
-    } catch {}
+    } catch { }
     finally { setLoading(false); }
   }
 
@@ -150,7 +154,7 @@ export default function HomePage() {
       const res = await fetch("/api/statistics");
       const data = await res.json();
       setTopUsers(data.top3ActiveUsers || []);
-    } catch {}
+    } catch { }
   }
 
   async function createPost() {

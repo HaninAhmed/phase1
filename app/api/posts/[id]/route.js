@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { getPostById, deletePost } from "../../../../repos/dataRepo.js";
 
-//returns a single post with comments and likes
+// GET /api/posts/[id] this willl returns a single post with comments and likes
 export async function GET(request, { params }) {
   try {
-    const post = await getPostById(params.id);
+    const { id } = await params;
+    const post = await getPostById(id);
 
     if (!post) {
       return NextResponse.json({ error: "Post not found." }, { status: 404 });
@@ -20,10 +21,11 @@ export async function GET(request, { params }) {
   }
 }
 
-//delete a post and its comments/likes
+//this will delete a post and its comments/likes
 export async function DELETE(request, { params }) {
   try {
-    await deletePost(params.id);
+    const { id } = await params;
+    await deletePost(id);
     return NextResponse.json({ message: "Post deleted." });
   } catch (error) {
     console.error("Delete post error:", error);
