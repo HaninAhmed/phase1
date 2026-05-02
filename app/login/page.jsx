@@ -36,7 +36,7 @@ export default function LoginPage() {
             sessionStorage.setItem("currentUser", data.username);
             sessionStorage.setItem("currentUserId", data.id);
 
-            router.push("/");
+            router.push("/home");
         } catch (err) {
             showError("Something went wrong. Please try again.");
         }
