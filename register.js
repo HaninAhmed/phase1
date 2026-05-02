@@ -1,9 +1,9 @@
 // Redirect if already logged in
-if (localStorage.getItem("currentUser")) {
+if (sessionStorage.getItem("currentUser")) {
   window.location.href = "index.html";
 }
 
-document.addEventListener("keydown", function(e) {
+document.addEventListener("keydown", function (e) {
   if (e.key === "Enter") handleRegister();
 });
 
@@ -27,19 +27,14 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-function handleRegister() {
+async function handleRegister() {
   let username = document.getElementById("regUsername").value.trim();
   let email = document.getElementById("regEmail").value.trim();
   let password = document.getElementById("regPassword").value;
   let confirm = document.getElementById("regConfirm").value;
 
-  if (username === "" || email === "" || password === "" || confirm === "") {
+  if (!username || !email || !password || !confirm) {
     showError("Please fill in all fields.");
-    return;
-  }
-
-  if (username.length < 3) {
-    showError("Username must be at least 3 characters.");
     return;
   }
 
@@ -48,50 +43,30 @@ function handleRegister() {
     return;
   }
 
-  if (password.length < 6) {
-    showError("Password must be at least 6 characters.");
-    return;
-  }
-
   if (password !== confirm) {
     showError("Passwords do not match.");
     return;
   }
 
-  let users = JSON.parse(localStorage.getItem("users")) || [];
+  try {
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, email, password }),
+    });
 
-  let usernameTaken = users.some(function(u) {
-    return u.username.toLowerCase() === username.toLowerCase();
-  });
-  if (usernameTaken) {
-    showError("That username is already taken.");
-    return;
+    const data = await res.json();
+
+    if (!res.ok) {
+      showError(data.error || "Registration failed.");
+      return;
+    }
+
+    showSuccess("Account created! Redirecting to login...");
+    setTimeout(() => {
+      window.location.href = "loginpage.html";
+    }, 1500);
+  } catch (err) {
+    showError("Something went wrong. Please try again.");
   }
-
-  let emailTaken = users.some(function(u) {
-    return u.email.toLowerCase() === email.toLowerCase();
-  });
-  if (emailTaken) {
-    showError("An account with that email already exists.");
-    return;
-  }
-
-  let newUser = {
-    username: username,
-    email: email,
-    password: password,
-    bio: "",
-    photo: "",
-    followers: [],
-    following: []
-  };
-
-  users.push(newUser);
-  localStorage.setItem("users", JSON.stringify(users));
-
-  showSuccess("Account created! Redirecting to login...");
-
-  setTimeout(function() {
-    window.location.href = "loginpage.html";
-  }, 1500);
 }
