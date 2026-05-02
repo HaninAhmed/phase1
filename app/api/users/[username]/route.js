@@ -9,7 +9,8 @@ import {
 // GET /api/users/[username]  →  returns profile data + posts
 export async function GET(request, { params }) {
   try {
-    const user = await getUserByUsername(params.username);
+    const { username } = await params;
+    const user = await getUserByUsername(username);
 
     if (!user) {
       return NextResponse.json({ error: "User not found." }, { status: 404 });
@@ -30,7 +31,8 @@ export async function GET(request, { params }) {
 // PUT /api/users/[username]  →  update profile (username, bio, photo)
 export async function PUT(request, { params }) {
   try {
-    const currentUser = await getUserByUsername(params.username);
+    const { username: paramUsername } = await params;
+    const currentUser = await getUserByUsername(paramUsername);
 
     if (!currentUser) {
       return NextResponse.json({ error: "User not found." }, { status: 404 });
@@ -39,7 +41,7 @@ export async function PUT(request, { params }) {
     const { username, bio, photo } = await request.json();
 
     // If username changed, make sure the new one is not taken
-    if (username && username !== params.username) {
+    if (username && username !== paramUsername) {
       if (await isUsernameTaken(username)) {
         return NextResponse.json(
           { error: "That username is already taken." },
