@@ -249,3 +249,16 @@ export async function isFollowing({ followerId, followingId }) {
   });
   return record !== null;
 }
+// Get all users (for follow/discover list) — returns only public fields
+export async function getAllUsers() {
+  return prisma.user.findMany({
+    select: {
+      id: true,
+      username: true,
+      bio: true,
+      photo: true,
+      _count: { select: { followers: true, following: true, posts: true } },
+    },
+    orderBy: { username: "asc" },
+  });
+}
