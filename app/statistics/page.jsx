@@ -1,62 +1,171 @@
 ﻿"use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function StatisticsPage() {
+  const router = useRouter();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentUser, setCurrentUser] = useState("");
 
   useEffect(() => {
+    const user = sessionStorage.getItem("currentUser");
+    if (!user) { router.push("/login"); return; }
+    setCurrentUser(user);
+
     fetch("/api/statistics")
       .then((res) => res.json())
-      .then((data) => { setStats(data); setLoading(false); })
-      .catch(() => { setError("Failed to load statistics."); setLoading(false); });
+      .then((data) => {
+        setStats(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError("Failed to load statistics.");
+        setLoading(false);
+      });
   }, []);
 
-  const cardStyle = { background: "#fff", borderRadius: "18px", boxShadow: "0 2px 8px rgba(0,0,0,0.08)", padding: "20px", marginBottom: "20px" };
+  function logout() {
+    sessionStorage.clear();
+    router.push("/login");
+  }
 
   return (
-    <div style={{ maxWidth: "800px", margin: "30px auto", padding: "0 20px", fontFamily: "Arial, sans-serif" }}>
-      <div style={cardStyle}>
-        <h1 style={{ color: "#f07bb8" }}>📊 Postify Statistics</h1>
-        <p>Platform insights</p>
-      </div>
+    <>
+      {/* Header */}
+      <header>
+        <section className="topBar">
+          <div className="logowithtext">
+            <a href="/home">
+              <img
+                src="/images/postify logo.png"
+                alt="Postify Logo"
+                className="logo"
+              />
+            </a>
+            <h1>Postify</h1>
+          </div>
+        </section>
+      </header>
 
-      {loading && <p style={{ textAlign: "center" }}>Loading...</p>}
-      {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
+      {/* Main */}
+      <main>
+        {/* Left Sidebar */}
+        <aside className="leftSideBar">
+          <nav className="navBar">
+            <a href="/home" className="pageLink">Home</a>
+            <a href="/feed" className="pageLink">My Posts</a>
+            <a href="/profile" className="pageLink">Profile</a>
+            <a href="/statistics" className="pageLink">Statistics</a>
+            <span
+              onClick={logout}
+              className="pageLink"
+              style={{ cursor: "pointer" }}
+            >
+              Log out
+            </span>
+          </nav>
+        </aside>
 
-      {stats && (
-        <>
-          <div style={cardStyle}>
-            <h2 style={{ color: "#d85c9d" }}>Overview</h2>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-              {[["Users", stats.platformOverview?.totalUsers], ["Posts", stats.platformOverview?.totalPosts], ["Comments", stats.platformOverview?.totalComments], ["Likes", stats.platformOverview?.totalLikes], ["Follows", stats.platformOverview?.totalFollows]].map(([label, val]) => (
-                <div key={label} style={{ background: "#f3e9fb", padding: "8px 14px", borderRadius: "999px", fontSize: "14px", color: "#6a5acd", fontWeight: 600 }}>{val} {label}</div>
-              ))}
-            </div>
+        {/* Center — Statistics Content */}
+        <section className="centerSide">
+
+          <div className="profileDiv">
+            <h2>Statistics</h2>
+            <p className="userBio">Postify platform insights</p>
           </div>
 
-          <div style={cardStyle}>
-            <h2 style={{ color: "#d85c9d" }}>Highlights</h2>
-            <p>🏆 Most Active User: <strong>@{stats.mostActiveUser?.username}</strong> ({stats.mostActiveUser?._count?.posts} posts)</p>
-            <p>❤️ Most Liked Post: <strong>{stats.mostLikedPost?._count?.likes} likes</strong> — "{stats.mostLikedPost?.content?.slice(0, 60)}..."</p>
-            <p>💬 Most Commented Post: <strong>{stats.mostCommentedPost?._count?.comments} comments</strong></p>
-            <p>👥 Most Followed User: <strong>@{stats.mostFollowedUser?.username}</strong> ({stats.mostFollowedUser?._count?.followers} followers)</p>
-            <p>📝 Avg Posts Per User: <strong>{stats.avgPostsPerUser}</strong></p>
-            <p>👍 Most Likes Given: <strong>@{stats.mostLikingUser?.username}</strong> ({stats.mostLikingUser?._count?.likes} likes given)</p>
-          </div>
+          {loading && <p className="msg">Loading...</p>}
+          {error && <p className="msg">{error}</p>}
 
-          <div style={cardStyle}>
-            <h2 style={{ color: "#d85c9d" }}>🥇 Top 3 Most Active Users</h2>
-            {stats.top3ActiveUsers?.map((user, i) => (
-              <div key={user.username} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid #eee", fontSize: "14px" }}>
-                <span>#{i + 1} @{user.username}</span>
-                <span>{user._count.posts} posts</span>
+          {stats && stats.platformOverview && (
+            <>
+              {/* Overview */}
+              <div className="post">
+                <h3>Overview</h3>
+                <div className="userStats">
+                  <div>
+                    <strong>{stats.platformOverview.totalUsers}</strong>
+                    <span> Users</span>
+                  </div>
+                  <div>
+                    <strong>{stats.platformOverview.totalPosts}</strong>
+                    <span> Posts</span>
+                  </div>
+                  <div>
+                    <strong>{stats.platformOverview.totalComments}</strong>
+                    <span> Comments</span>
+                  </div>
+                  <div>
+                    <strong>{stats.platformOverview.totalLikes}</strong>
+                    <span> Likes</span>
+                  </div>
+                  <div>
+                    <strong>{stats.platformOverview.totalFollows}</strong>
+                    <span> Follows</span>
+                  </div>
+                </div>
               </div>
-            ))}
-          </div>
-        </>
-      )}
-    </div>
+
+              {/* Highlights */}
+              <div className="post">
+                <h3>Highlights</h3>
+                <div className="userPosts">
+                  <div className="postActionsRow">
+                    <span>Most Active User:</span>
+                    <strong>@{stats.mostActiveUser?.username ?? "N/A"}</strong>
+                    <span>{stats.mostActiveUser?._count?.posts ?? 0} posts</span>
+                  </div>
+                  <div className="postActionsRow">
+                    <span>Most Liked Post:</span>
+                    <strong>{stats.mostLikedPost?._count?.likes ?? 0} likes</strong>
+                    <span>by @{stats.mostLikedPost?.user?.username ?? "N/A"}</span>
+                  </div>
+                  <div className="postActionsRow">
+                    <span>Most Commented Post:</span>
+                    <strong>{stats.mostCommentedPost?._count?.comments ?? 0} comments</strong>
+                    <span>by @{stats.mostCommentedPost?.user?.username ?? "N/A"}</span>
+                  </div>
+                  <div className="postActionsRow">
+                    <span>Most Followed User:</span>
+                    <strong>@{stats.mostFollowedUser?.username ?? "N/A"}</strong>
+                    <span>{stats.mostFollowedUser?._count?.followers ?? 0} followers</span>
+                  </div>
+                  <div className="postActionsRow">
+                    <span>Avg Posts Per User:</span>
+                    <strong>{stats.avgPostsPerUser ?? 0}</strong>
+                  </div>
+                  <div className="postActionsRow">
+                    <span>Most Likes Given:</span>
+                    <strong>@{stats.mostLikingUser?.username ?? "N/A"}</strong>
+                    <span>{stats.mostLikingUser?._count?.likes ?? 0} likes given</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Leaderboard */}
+              <div className="post">
+                <h3>Top 3 Most Active Users</h3>
+                <div className="userPosts">
+                  {stats.top3ActiveUsers?.map((user, i) => (
+                    <div key={user.username} className="postActionsRow">
+                      <span>#{i + 1}</span>
+                      <strong>@{user.username}</strong>
+                      <span>{user._count.posts} posts</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer>
+        <p>&copy; 2026 Postify</p>
+      </footer>
+    </>
   );
 }
