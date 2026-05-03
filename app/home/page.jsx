@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+
 function PostCard({ post, currentUser, currentUserId, onDelete }) {
   const router = useRouter();
   const [liked, setLiked] = useState(
@@ -126,8 +127,10 @@ export default function HomePage() {
   const [currentUserId, setCurrentUserId] = useState("");
   const [posts, setPosts] = useState([]);
   const [content, setContent] = useState("");
-  const [topUsers, setTopUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [allUsers, setAllUsers] = useState([]);
+  const [search, setSearch] = useState("");
+  const [followingIds, setFollowingIds] = useState([]);
 
   useEffect(() => {
     const user = sessionStorage.getItem("currentUser");
@@ -136,7 +139,7 @@ export default function HomePage() {
     setCurrentUser(user);
     setCurrentUserId(userId);
     loadFeed(userId);
-    loadTopUsers();
+    loadAllUsers(userId);
   }, []);
 
   async function loadFeed(userId) {
@@ -149,13 +152,50 @@ export default function HomePage() {
     finally { setLoading(false); }
   }
 
-  async function loadTopUsers() {
+  async function loadAllUsers(userId) {
     try {
-      const res = await fetch("/api/statistics");
+      // Load all users
+      const res = await fetch("/api/users");
       const data = await res.json();
-      setTopUsers(data.top3ActiveUsers || []);
+      setAllUsers(data);
+
+      // Check follow status for each user individually
+      const ids = [];
+      for (const user of data) {
+        if (user.username === sessionStorage.getItem("currentUser")) continue;
+        const followRes = await fetch(
+          `/api/follows?followerId=${userId}&followingId=${user.id}`
+        );
+        const followData = await followRes.json();
+        if (followData.following) {
+          ids.push(user.id);
+        }
+      }
+      setFollowingIds(ids);
     } catch { }
   }
+
+
+  //
+  async function toggleFollow(targetId) {
+    const isFollowing = followingIds.includes(targetId);
+    await fetch("/api/follows", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        followerId: parseInt(currentUserId),
+        followingId: targetId,
+        action: isFollowing ? "unfollow" : "follow",
+      }),
+    });
+    // Update state immediately without waiting for reload
+    setFollowingIds((prev) =>
+      isFollowing
+        ? prev.filter((id) => id !== targetId)
+        : [...prev, targetId]
+    );
+  }
+
 
   async function createPost() {
     if (!content.trim()) return;
@@ -246,6 +286,7 @@ export default function HomePage() {
         </section>
 
         <aside className="rightSideBar">
+          {/* User Info */}
           <section className="userSideInfo">
             <img
               src="/images/profilePhoto.png"
@@ -257,19 +298,52 @@ export default function HomePage() {
             </div>
           </section>
 
+          {/* Discover */}
           <section className="discover">
             <h2>Discover</h2>
+
+            {/* Search Bar */}
+            <input
+              type="text"
+              placeholder="Search users..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "8px 12px",
+                borderRadius: 999,
+                border: "1px solid #eee",
+                marginBottom: 12,
+                fontSize: 13,
+                outline: "none",
+                fontFamily: "inherit",
+              }}
+            />
+
             <div id="followList">
-              {topUsers.map((u) => (
-                <div key={u.username} className="followLine">
-                  <div className="followingInfo">
-                    <h3>@{u.username}</h3>
+              {allUsers
+                .filter((u) =>
+                  u.username !== currentUser &&
+                  u.username.toLowerCase().includes(search.toLowerCase())
+                )
+                .map((u) => (
+                  <div key={u.username} className="followLine">
+                    <div className="followingInfo">
+                      <img
+                        src="/images/profilePhoto.png"
+                        alt={u.username}
+                        className="followingPhoto"
+                      />
+                      <h3>@{u.username}</h3>
+                    </div>
+                    <button
+                      onClick={() => toggleFollow(u.id)}
+                      className="mainBtn"
+                    >
+                      {followingIds.includes(u.id) ? "Unfollow" : "Follow"}
+                    </button>
                   </div>
-                  <span style={{ fontSize: 12, color: "#999" }}>
-                    {u._count.posts} posts
-                  </span>
-                </div>
-              ))}
+                ))}
             </div>
           </section>
         </aside>

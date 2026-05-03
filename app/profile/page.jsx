@@ -49,13 +49,14 @@ function ProfileContent() {
   }
 
   async function toggleFollow() {
-    const method = following ? "DELETE" : "POST";
+    const method = following ? "unfollow" : "follow";
     await fetch("/api/follows", {
-      method,
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         followerId: parseInt(currentUserId),
         followingId: profile.id,
+        action: method,
       }),
     });
     setFollowing((f) => !f);
