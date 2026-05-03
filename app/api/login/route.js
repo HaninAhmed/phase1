@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getUserByEmail } from "../../../repos/dataRepo.js";
+import { getUserByEmail } from "@/repos/dataRepo.js";
 
 export async function POST(request) {
   try {

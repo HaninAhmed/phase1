@@ -149,7 +149,7 @@ function ProfileContent() {
           </button>
         </aside>
 
-        {/* Center — Profile Content */}
+        {/* Center      Profile Content */}
         <section className="centerSide">
           {profile && (
             <>

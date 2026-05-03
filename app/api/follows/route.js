@@ -3,7 +3,7 @@ import {
   followUser,
   unfollowUser,
   isFollowing,
-} from "../../../repos/dataRepo.js";
+} from "@/repos/dataRepo.js";
 
 
 export async function POST(request) {

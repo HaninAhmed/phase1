@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createComment, deleteComment } from "../../../repos/dataRepo.js";
+import { createComment, deleteComment } from "@/repos/dataRepo.js";
 
 // POST /api/comments  →  add a comment to a post
 export async function POST(request) {

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getFeedPosts, createPost } from "../../../repos/dataRepo.js";
+import { getFeedPosts, createPost } from "@/repos/dataRepo.js";
 
 // GET /api/posts?userId=123  →  returns feed posts for that user
 export async function GET(request) {

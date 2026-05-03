@@ -8,7 +8,7 @@ import {
   getAvgPostsPerUser,
   getTop3ActiveUsers,
   getMostLikingUser,
-} from "../../../repos/statsRepo.js";
+} from "@/repos/statsRepo.js";
 
 export async function GET() {
   try {

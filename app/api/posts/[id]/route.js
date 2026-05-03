@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPostById, deletePost } from "../../../../repos/dataRepo.js";
+import { getPostById, deletePost } from "../../../repos/dataRepo.js";
 
 // GET /api/posts/[id] this willl returns a single post with comments and likes
 export async function GET(request, { params }) {

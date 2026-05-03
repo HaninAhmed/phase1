@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAllUsers } from "../../../repos/dataRepo.js";
+import { getAllUsers } from "@/repos/dataRepo.js";
 
 // GET /api/users  — list all users (public info only)
 export async function GET() {

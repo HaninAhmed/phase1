@@ -1,18 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import path from "path";
-import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: "file:" + path.join(__dirname, "../prisma/dev.db"),
-    },
-  },
-});
 
+
+const prisma = new PrismaClient();
 
 // Get a user by email (used for login)
 export async function getUserByEmail(email) {

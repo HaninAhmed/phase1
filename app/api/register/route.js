@@ -3,7 +3,7 @@ import {
   createUser,
   isUsernameTaken,
   isEmailTaken,
-} from "../../../repos/dataRepo.js";
+} from "@/repos/dataRepo.js";
 
 export async function POST(request) {
   try {

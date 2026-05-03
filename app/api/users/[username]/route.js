@@ -4,7 +4,7 @@ import {
   updateUser,
   getPostsByUser,
   isUsernameTaken,
-} from "../../../../repos/dataRepo.js";
+} from "@/repos/dataRepo.js";
 
 // GET /api/users/[username]  →  returns profile data + posts
 export async function GET(request, { params }) {

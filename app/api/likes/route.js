@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { toggleLike } from "../../../repos/dataRepo.js";
+import { toggleLike } from "@/repos/dataRepo.js";
 
 // toggle a like on a post
 export async function POST(request) {
